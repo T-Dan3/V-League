@@ -16,7 +16,9 @@ db = SQLAlchemy(app)
 class User(UserMixin, db.Model):
    id = db.Column(db.Integer, primary_key = True)
    name = db.Column(db.String, nullable = False, unique = False)
+   email = db.Column(db.String, unique = True, nullable = False)
    password = db.Column(db.String(100), nullable = False, unique = False)
+   created_on = db.Column(db.DateTime, index = False, unique = False, nullable = True)
 
    def set_password(self, password):
       self.password = generate_password_hash(password, method="sha256")
@@ -29,12 +31,12 @@ class User(UserMixin, db.Model):
 
 class SignupForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[Length(min=6), DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm = PasswordField('Confirm Your Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match.')])
     submit = SubmitField('Register')
 
 class LoginForm(FlaskForm):
-    """User Login Form."""
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Log In')
@@ -51,14 +53,15 @@ def signup():
         if signup_form.validate_on_submit():
             print("validated")
             name = request.form.get('username')
+            email = request.form.get('email')
             password = request.form.get('password')
-            #existing_user = User.query.filter_by(username=username).first()
-            #if existing_user is None:
-            user = User(name=name)
-            user.set_password(password)
-            db.session.add(user)
-            db.session.commit()
-            return redirect(url_for('home'))
+            existing_user = User.query.filter_by(email=email).first()
+            if existing_user is None:
+                user = User(name=name, email=email)
+                user.set_password(password)
+                db.session.add(user)
+                db.session.commit()
+                return redirect(url_for('home'))
     return render_template('register.html', form=signup_form)
 
 if __name__ == "__main__":

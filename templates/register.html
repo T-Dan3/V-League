@@ -11,6 +11,11 @@
                     {{ form.username(placeholder='This is your login username') }}
                 </fieldset>
 
+                <fieldset class="email">
+                    {{ form.email.label }}
+                    {{ form.email(placeholder='youremail@example.com') }}
+                </fieldset>
+
                 <fieldset class="password">
                     {{ form.password.label }}
                     {{ form.password }}
