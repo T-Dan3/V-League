@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div class="loginbox">
+            <form action="{{url_for('login')}}" method="POST">
+                <h1>Log In</h1>
+
+                {{ form.csrf_token }}
+
+                <fieldset class="email">
+                    {{ form.email.labbel }}
+                    {{ form.email(placeholder='youremail@example.com') }}
+                </fieldset>
+
+                <fieldset class="password">
+                    {{ form.password.labbel }}
+                    {{ form.password }}
+                </fieldset>
+
+                <div class="submitbutton">
+                    <input id="submit" type="submit" value="Submit">
+                </div>
+                
+            </form>
+        </div>
+    </body>
+</html>
