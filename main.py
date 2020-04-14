@@ -16,6 +16,18 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+class Player(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String, nullable = False, unique = True)
+    height = db.Column(db.Integer, nullable = False, unique = False)
+    position = db.Column(db.String(5), nullable = False, unique = False)
+    age = db.Column(db.Integer, nullable = False, unique = False)
+    number = db.Column(db.Integer, nullable = False, unique = False)
+    birth_date = db.Column(db.String, nullable = False, unique = False)
+    birth_place = db.Column(db.String, nullable = False, unique = False)
+    image = db.Column(db.String, nullable = True, unique = True)
+
+
 class User(UserMixin, db.Model):
    id = db.Column(db.Integer, primary_key = True)
    name = db.Column(db.String, nullable = False, unique = False)

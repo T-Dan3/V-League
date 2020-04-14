@@ -1,5 +1,5 @@
 img.logo {
-    width: 160px;
+    width: 180px;
     height: 100px;
     float: left;
 }
@@ -19,8 +19,14 @@ a {
     font-weight: bold;
 }
 
-.navbar {
-    width: 100%;
-    background-color: black;
+header {
+    background: black;
 }
 
+.navbar {
+    margin: 0 auto;
+}
+
+body {
+    margin: 0;
+}
