@@ -12,11 +12,25 @@ nav {
     align-items: center;
 }
 
-a {
+a.navitems {
     text-decoration: none;
     margin: 0 20px;
     color: white;
     font-weight: bold;
+}
+
+a.logo {
+    font-weight: bold;
+    margin: 0 20px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+li {
+    list-style: none;
 }
 
 header {

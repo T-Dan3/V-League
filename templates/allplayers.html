@@ -1,0 +1,11 @@
+{%extends "layout.html"%}
+{%block content%}
+{% for players in players %}
+<ul>
+    <li> <a href="/player/{{players.name}}">{{players.position}} {{ players.name }}    </a></li>
+</ul>    
+
+{% endfor %}
+
+
+{%endblock%}

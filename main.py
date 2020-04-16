@@ -16,17 +16,16 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-class Player(db.Model):
+class player(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String, nullable = False, unique = True)
     height = db.Column(db.Integer, nullable = False, unique = False)
-    position = db.Column(db.String(5), nullable = False, unique = False)
+    position = db.Column(db.String(10), nullable = False, unique = False)
     age = db.Column(db.Integer, nullable = False, unique = False)
     number = db.Column(db.Integer, nullable = False, unique = False)
     birth_date = db.Column(db.String, nullable = False, unique = False)
     birth_place = db.Column(db.String, nullable = False, unique = False)
     image = db.Column(db.String, nullable = True, unique = True)
-
 
 class User(UserMixin, db.Model):
    id = db.Column(db.Integer, primary_key = True)
@@ -63,6 +62,10 @@ def home():
     if not current_user.is_authenticated:
         print('user not authenticated')
     return render_template('home.html')
+
+@app.route('/all-players')
+def allplayers():
+    return render_template('allplayers.html', players=player.query.filter(player.name.startswith('L')).all())
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
