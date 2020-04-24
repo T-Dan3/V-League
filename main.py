@@ -91,6 +91,10 @@ def allplayers():
                                               p_startWithS=Player.query.filter(Player.name.startswith('S')).all()
                                               )
 
+@app.route('/player/<player_name>')
+def playerprofile(player_name):
+    return render_template('player_profile.html', player_info=Player.query.filter_by(name=player_name).all())
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     signup_form = SignupForm(request.form)

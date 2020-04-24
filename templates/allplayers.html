@@ -1,5 +1,8 @@
 {%extends "layout.html"%}
 {%block content%}
+
+<a href='#K'>K</a>
+
 <h2>G</h2>
 {% for playerG in p_startWithG %}
 <ul>
@@ -19,12 +22,14 @@
 </ul>    
 {% endfor %}
 
+<div id="K">
 <h2>K</h2>
 {% for playerK in p_startWithK %}
 <ul>
     <li> <a href="/player/{{playerK.name}}">{{ playerK.name }}    </a></li>
 </ul> 
 {% endfor %}
+</div>
 
 
 <h2>L</h2>
