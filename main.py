@@ -9,23 +9,38 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///vleague.sqlite3'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///vleague.db'
 app.config['SECRET_KEY'] = "random string"
 
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-class player(db.Model):
+likes = db.Table('likes', 
+        db.Column('user_id', db.Integer, db.ForeignKey('user.id')), 
+        db.Column('player_id', db.Integer, db.ForeignKey('player.id'))
+)
+
+class Player(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String, nullable = False, unique = True)
     height = db.Column(db.Integer, nullable = False, unique = False)
-    position = db.Column(db.String(10), nullable = False, unique = False)
+    position = db.Column(db.String(30), nullable = False, unique = False)
     age = db.Column(db.Integer, nullable = False, unique = False)
     number = db.Column(db.Integer, nullable = False, unique = False)
     birth_date = db.Column(db.String, nullable = False, unique = False)
     birth_place = db.Column(db.String, nullable = False, unique = False)
     image = db.Column(db.String, nullable = True, unique = True)
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
+
+class Team(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String, nullable = False, unique = True)
+    founded_date = db.Column(db.String, nullable = True, unique = False)
+    stadium = db.Column(db.String, nullable = True, unique = False)
+    chairman = db.Column(db.String, nullable = True, unique = True)
+    image = db.Column(db.String, nullable = True, unique = True)
+    players = db.relationship('Player', backref='team')
 
 class User(UserMixin, db.Model):
    id = db.Column(db.Integer, primary_key = True)
@@ -33,6 +48,7 @@ class User(UserMixin, db.Model):
    email = db.Column(db.String, unique = True, nullable = False)
    password = db.Column(db.String(100), nullable = False, unique = False)
    created_on = db.Column(db.DateTime, index = False, unique = False, nullable = True, default=datetime.date.today())
+   upvotes = db.relationship('Player', secondary=likes, backref=db.backref('upvoters', lazy='dynamic'))
 
    def set_password(self, password):
       self.password = generate_password_hash(password, method="sha256")
@@ -65,7 +81,15 @@ def home():
 
 @app.route('/all-players')
 def allplayers():
-    return render_template('allplayers.html', players=player.query.filter(player.name.startswith('L')).all())
+    return render_template('allplayers.html', p_startWithL=Player.query.filter(Player.name.startswith('L')).all(), 
+                                              p_startWithK=Player.query.filter(Player.name.startswith('K')).all(),
+                                              p_startWithH=Player.query.filter(Player.name.startswith('H')).all(),
+                                              p_startWithJ=Player.query.filter(Player.name.startswith('J')).all(),
+                                              p_startWithG=Player.query.filter(Player.name.startswith('G')).all(),
+                                              p_startWithM=Player.query.filter(Player.name.startswith('M')).all(),
+                                              p_startWithY=Player.query.filter(Player.name.startswith('Y')).all(),
+                                              p_startWithS=Player.query.filter(Player.name.startswith('S')).all()
+                                              )
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():

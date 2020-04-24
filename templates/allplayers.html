@@ -1,11 +1,57 @@
 {%extends "layout.html"%}
 {%block content%}
-{% for players in players %}
+<h2>G</h2>
+{% for playerG in p_startWithG %}
 <ul>
-    <li> <a href="/player/{{players.name}}">{{players.position}} {{ players.name }}    </a></li>
+    <li> <a href="/player/{{playerG.name}}">{{ playerG.name }}    </a></li>
 </ul>    
+{% endfor %}
+<h2>H</h2>
+{% for playerH in p_startWithH %}
+<ul>
+    <li> <a href="/player/{{playerH.name}}">{{ playerH.name }}    </a></li>
+</ul>    
+{% endfor %}
+<h2>J</h2>
+{% for playerJ in p_startWithJ %}
+<ul>
+    <li> <a href="/player/{{playerJ.name}}">{{ playerJ.name }}    </a></li>
+</ul>    
+{% endfor %}
 
+<h2>K</h2>
+{% for playerK in p_startWithK %}
+<ul>
+    <li> <a href="/player/{{playerK.name}}">{{ playerK.name }}    </a></li>
+</ul> 
 {% endfor %}
 
 
+<h2>L</h2>
+{% for playerL in p_startWithL %}
+<ul>
+    <li> <a href="/player/{{playerL.name}}">{{ playerL.name }}    </a></li>
+</ul>    
+{% endfor %}
+
+<h2>M</h2>
+{% for playerM in p_startWithM %}
+<ul>
+    <li> <a href="/player/{{playerM.name}}">{{ playerM.name }}    </a></li>
+</ul>    
+{% endfor %}
+
+<h2>S</h2>
+{% for playerS in p_startWithS %}
+<ul>
+    <li> <a href="/player/{{playerS.name}}">{{ playerS.name }}    </a></li>
+</ul>    
+{% endfor %}
+
+<h2>Y</h2>
+{% for playerY in p_startWithY %}
+<ul>
+    <li> <a href="/player/{{playerY.name}}">{{ playerY.name }}    </a></li>
+</ul>    
+{% endfor %}
 {%endblock%}
