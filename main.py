@@ -91,9 +91,18 @@ def allplayers():
                                               p_startWithS=Player.query.filter(Player.name.startswith('S')).all()
                                               )
 
-@app.route('/player/<player_name>')
+@app.route('/player/<player_name>', methods=['GET','POST'])
 def playerprofile(player_name):
-    return render_template('player_profile.html', player_info=Player.query.filter_by(name=player_name).all())
+    user = User.query.filter_by(id=current_user.id).first()
+    player = Player.query.filter_by(name=player_name).first()
+    liked = player.upvoters.filter_by(id=current_user.id).first()
+    like_count = User.query.filter(User.upvotes.any(id=player.id)).count()
+    if request.method == 'POST':
+        if liked is None:
+            player.upvoters.append(user)
+            db.session.commit()
+            return redirect(url_for('playerprofile', player_name=player_name))
+    return render_template('player_profile.html', liked=liked, player_info=Player.query.filter_by(name=player_name).all())
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():

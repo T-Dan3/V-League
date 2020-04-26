@@ -3,7 +3,20 @@
 
 {% for playerinfo in player_info %}
 
-{{playerinfo.position}}
+{% if not liked %}
+    <p>Like count: {{playerinfo.upvoters.count()}}</p>
+    <form method="POST">
+        <div class="submitbutton">
+            <input id="submit" type="submit" value="Like">
+        </div>
+    </form>
+{% endif %}
+
+{% if liked %}
+    <p>liked</p>
+    <p>Like count: {{playerinfo.upvoters.count()}}</p>
+
+{% endif %}
 
 {% endfor %}
 
