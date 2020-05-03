@@ -93,15 +93,21 @@ def allplayers():
 
 @app.route('/player/<player_name>', methods=['GET','POST'])
 def playerprofile(player_name):
-    user = User.query.filter_by(id=current_user.id).first()
-    player = Player.query.filter_by(name=player_name).first()
-    liked = player.upvoters.filter_by(id=current_user.id).first()
-    like_count = User.query.filter(User.upvotes.any(id=player.id)).count()
-    if request.method == 'POST':
-        if liked is None:
-            player.upvoters.append(user)
-            db.session.commit()
-            return redirect(url_for('playerprofile', player_name=player_name))
+    if current_user.is_authenticated:
+        user = User.query.filter_by(id=current_user.id).first()
+        player = Player.query.filter_by(name=player_name).first()
+        liked = player.upvoters.filter_by(id=current_user.id).first()
+        if request.method == 'POST':
+            if liked is None:
+                player.upvoters.append(user)
+                db.session.commit()
+                return redirect(url_for('playerprofile', player_name=player_name))
+            if liked:
+                player.upvoters.remove(user)
+                db.session.commit()
+                return redirect(url_for('playerprofile', player_name=player_name))
+    else:
+        return render_template('player_profile.html', player_info=Player.query.filter_by(name=player_name).all())
     return render_template('player_profile.html', liked=liked, player_info=Player.query.filter_by(name=player_name).all())
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -158,11 +164,6 @@ def load_user(user_id):
     if user_id is not None:
         return User.query.get(user_id)
     return None
-
-@login_manager.unauthorized_handler
-def unauthorized():
-    flash('You must be logged in to view that page.')
-    return redirect(url_for('login'))
 
 if __name__ == "__main__":
    db.create_all()

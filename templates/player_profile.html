@@ -3,18 +3,32 @@
 
 {% for playerinfo in player_info %}
 
-{% if not liked %}
+{% if not current_user.is_authenticated %}
+
     <p>Like count: {{playerinfo.upvoters.count()}}</p>
-    <form method="POST">
-        <div class="submitbutton">
-            <input id="submit" type="submit" value="Like">
-        </div>
-    </form>
+
 {% endif %}
 
-{% if liked %}
-    <p>liked</p>
-    <p>Like count: {{playerinfo.upvoters.count()}}</p>
+{% if current_user.is_authenticated %}
+    {% if not liked %}
+        <p>Like count: {{playerinfo.upvoters.count()}}</p>
+        <form method="POST">
+            <div class="submitbutton">
+                <input id="submit" type="submit" value="Like">
+            </div>
+        </form>
+    {% endif %}
+
+    {% if liked %}
+        <p>liked</p>
+        <form method="POST">
+            <div class="submitbutton">
+                <input id="submit" type="submit" value="Dislike">
+            </div>
+        </form>
+        <p>Like count: {{playerinfo.upvoters.count()}}</p>
+
+    {% endif %}
 
 {% endif %}
 
