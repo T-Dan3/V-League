@@ -16,6 +16,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+# many to many relationship table for user likes 
 likes = db.Table('likes', 
         db.Column('user_id', db.Integer, db.ForeignKey('user.id')), 
         db.Column('player_id', db.Integer, db.ForeignKey('player.id'))
@@ -96,6 +97,7 @@ def playerprofile(player_name):
     if current_user.is_authenticated:
         user = User.query.filter_by(id=current_user.id).first()
         player = Player.query.filter_by(name=player_name).first()
+        # checks if the user has liked the player 
         liked = player.upvoters.filter_by(id=current_user.id).first()
         if request.method == 'POST':
             if liked is None:
@@ -120,6 +122,7 @@ def signup():
             name = request.form.get('username')
             email = request.form.get('email')
             password = request.form.get('password')
+            # checks if user already has an account under the same email
             existing_user = User.query.filter_by(email=email).first()
             if existing_user is None:
                 user = User(name=name, email=email)
@@ -134,9 +137,7 @@ def signup():
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-
     login_form = LoginForm(request.form)
-
     if request.method == "POST":
         print('login posted')
         if login_form.validate():

@@ -37,38 +37,41 @@
 {% endif %}
 
 {% if current_user.is_authenticated %}
-<img class="player-profile" src="{{playerinfo.image}}" alt="{{playerinfo.name}}">
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Height</th>
-                <th>Position</th>
-                <th>Number</th>
-                <th>Birth Date</th>
-                <th>Birth Place</th>
-                <th>Team</th>
-            </tr>
-        </thead>
+    <div class="playerimg">
+        <img class="player-profile" src="{{playerinfo.image}}" alt="{{playerinfo.name}}">
+    </div>
+    <h1 class="playername">{{playerinfo.name.split()[0]}}<br>{{playerinfo.name.split()[1]}}</h1>
+    <div class="playerinfo">
+        <table>
+            <thead>
+                <tr>
+                    <th>Age</th>
+                    <th>Height</th>
+                    <th>Position</th>
+                    <th>Number</th>
+                    <th>Birth Date</th>
+                    <th>Birth Place</th>
+                    <th>Team</th>
+                </tr>
+            </thead>
 
-        <tbody>
-            <td>{{playerinfo.name}}</td>
-            <td>{{playerinfo.age}}</td>
-            <td>{{playerinfo.height}}</td>
-            <td>{{playerinfo.position}}</td>
-            <td>#{{playerinfo.number}}</td>
-            <td>{{playerinfo.birth_date}}</td>
-            <td>{{playerinfo.birth_place}}</td>
-            <td>{{playerinfo.team.name}}</td>
-        </tbody>
-    </table>
+            <tbody>
+                <td>{{playerinfo.age}}</td>
+                <td>{{playerinfo.height}}</td>
+                <td>{{playerinfo.position}}</td>
+                <td>#{{playerinfo.number}}</td>
+                <td>{{playerinfo.birth_date}}</td>
+                <td>{{playerinfo.birth_place}}</td>
+                <td>{{playerinfo.team.name}}</td>
+            </tbody>
+        </table>
+    </div>
     <!--Allows user to like the player if they haven't-->
     {% if not liked %}
         <p>Like count: {{playerinfo.upvoters.count()}}</p>
         <form method="POST">
             <div class="submitbutton">
-                <input id="submit" type="submit" value="Like">
+                <input id="submit" type="image" src="https://cdn.pixabay.com/photo/2013/07/13/12/15/hand-159474_960_720.png" alt="Like" value="Like">
             </div>
         </form>
     {% endif %}
@@ -77,7 +80,7 @@
         <p>liked</p>
         <form method="POST">
             <div class="submitbutton">
-                <input id="submit" type="submit" value="Dislike">
+                <input id="submit" type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Font_Awesome_5_solid_thumbs-down.svg/1024px-Font_Awesome_5_solid_thumbs-down.svg.png" alt="Dislike" value="Dislike">
             </div>
         </form>
         <p>Like count: {{playerinfo.upvoters.count()}}</p>
