@@ -3,13 +3,67 @@
 
 {% for playerinfo in player_info %}
 
+<!--User will not be able to like the player if they're not logged in-->
 {% if not current_user.is_authenticated %}
 
+    <img class="player-profile" src="{{playerinfo.image}}" alt="{{playerinfo.name}}">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Height</th>
+                <th>Position</th>
+                <th>Number</th>
+                <th>Birth Date</th>
+                <th>Birth Place</th>
+                <th>Team</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <td>{{playerinfo.name}}</td>
+            <td>{{playerinfo.age}}</td>
+            <td>{{playerinfo.height}}</td>
+            <td>{{playerinfo.position}}</td>
+            <td>#{{playerinfo.number}}</td>
+            <td>{{playerinfo.birth_date}}</td>
+            <td>{{playerinfo.birth_place}}</td>
+            <td>{{playerinfo.team.name}}</td>
+        </tbody>
+    </table>
     <p>Like count: {{playerinfo.upvoters.count()}}</p>
 
 {% endif %}
 
 {% if current_user.is_authenticated %}
+<img class="player-profile" src="{{playerinfo.image}}" alt="{{playerinfo.name}}">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Height</th>
+                <th>Position</th>
+                <th>Number</th>
+                <th>Birth Date</th>
+                <th>Birth Place</th>
+                <th>Team</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <td>{{playerinfo.name}}</td>
+            <td>{{playerinfo.age}}</td>
+            <td>{{playerinfo.height}}</td>
+            <td>{{playerinfo.position}}</td>
+            <td>#{{playerinfo.number}}</td>
+            <td>{{playerinfo.birth_date}}</td>
+            <td>{{playerinfo.birth_place}}</td>
+            <td>{{playerinfo.team.name}}</td>
+        </tbody>
+    </table>
+    <!--Allows user to like the player if they haven't-->
     {% if not liked %}
         <p>Like count: {{playerinfo.upvoters.count()}}</p>
         <form method="POST">
@@ -18,7 +72,7 @@
             </div>
         </form>
     {% endif %}
-
+    <!--Allows user to dislike the player if they have liked them-->
     {% if liked %}
         <p>liked</p>
         <form method="POST">

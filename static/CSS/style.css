@@ -45,6 +45,38 @@ a.navitems {
     float: right;
 }
 
+img.player-profile {
+    border-radius: 50%;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    float: left;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+    width: 50%;
+}
+
+th{
+    height: 30px;
+    font-size: 18px;
+    font-family: 'Lato';
+}
+
+td {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+
 body {
     margin: 0;
 }

@@ -1,20 +1,26 @@
 {%extends "layout.html"%}
 {%block content%}
 
+<!--Mini nav bar that allows users to jump to a certain letter-->
 <a href='#K'>K</a>
 
+<!--Players with names starting with G-->
 <h2>G</h2>
 {% for playerG in p_startWithG %}
 <ul>
     <li> <a href="/player/{{playerG.name}}">{{ playerG.name }}    </a></li>
 </ul>    
 {% endfor %}
+
+<!--Players with names starting with H-->
 <h2>H</h2>
 {% for playerH in p_startWithH %}
 <ul>
     <li> <a href="/player/{{playerH.name}}">{{ playerH.name }}    </a></li>
 </ul>    
 {% endfor %}
+
+<!--Players with names starting with J-->
 <h2>J</h2>
 {% for playerJ in p_startWithJ %}
 <ul>
@@ -22,6 +28,7 @@
 </ul>    
 {% endfor %}
 
+<!--Players with names starting with K-->
 <div id="K">
 <h2>K</h2>
 {% for playerK in p_startWithK %}
@@ -31,7 +38,7 @@
 {% endfor %}
 </div>
 
-
+<!--Players with names starting with L-->
 <h2>L</h2>
 {% for playerL in p_startWithL %}
 <ul>
@@ -39,6 +46,7 @@
 </ul>    
 {% endfor %}
 
+<!--Players with names starting with M-->
 <h2>M</h2>
 {% for playerM in p_startWithM %}
 <ul>
@@ -46,6 +54,7 @@
 </ul>    
 {% endfor %}
 
+<!--Players with names starting with S-->
 <h2>S</h2>
 {% for playerS in p_startWithS %}
 <ul>
@@ -53,6 +62,7 @@
 </ul>    
 {% endfor %}
 
+<!--Players with names starting with Y-->
 <h2>Y</h2>
 {% for playerY in p_startWithY %}
 <ul>

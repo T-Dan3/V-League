@@ -9,7 +9,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///vleague.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///static/vleague.db'
 app.config['SECRET_KEY'] = "random string"
 
 db = SQLAlchemy(app)
