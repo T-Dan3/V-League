@@ -73,12 +73,12 @@ table, th, td {
 .playerinfo{
     float: left;
     clear: left;
-    padding-top: 15px;
-    padding-left: 30px;
-}
-
-p {
-    clear: left;
+    margin-top: 20px;
+    margin-left: 40px;
+    padding: 10px;
+    padding-right: 40px;
+    border: 1px solid black;
+    border-radius: 30px;
 }
 
 table {
@@ -108,4 +108,46 @@ body {
 input#submit{
     width: 50px;
     height: 50px;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+h3 {
+    border-bottom: 1px solid black;
+}
+
+.submitbutton {
+    float: right;
+    padding-right: 30px;
+    padding-top: 20px;
+}
+
+.player_profile_details {
+    float: left;
+    margin-top: 20px;
+    margin-left: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 1px solid black;
+    border-radius: 30px;
+    width: 70%;
+}
+
+img.player_team_img {
+    float: left;
+    padding-bottom: 10px;
+}
+
+h1.player_profile_title {
+    border-bottom: 1px solid black;
+    text-align: center;
+}
+
+h1.team_name {
+    float: left;
+    line-height: 100px;
+    padding-left: 10px;
 }

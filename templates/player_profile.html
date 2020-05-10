@@ -5,34 +5,47 @@
 
 <!--User will not be able to like the player if they're not logged in-->
 {% if not current_user.is_authenticated %}
+    <div class="playerimg">
+        <img class="player-profile" src="{{playerinfo.image}}" alt="{{playerinfo.name}}">
+    </div>
+    <h1 class="playername">{{playerinfo.name.split()[0]}}<br>{{playerinfo.name.split()[1]}}</h1>
 
-    <img class="player-profile" src="{{playerinfo.image}}" alt="{{playerinfo.name}}">
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Height</th>
-                <th>Position</th>
-                <th>Number</th>
-                <th>Birth Date</th>
-                <th>Birth Place</th>
-                <th>Team</th>
-            </tr>
-        </thead>
+    <div class="playerinfo">
+        <h3>Name</h3>
+        <p>{{playerinfo.name}}</p>
 
-        <tbody>
-            <td>{{playerinfo.name}}</td>
-            <td>{{playerinfo.age}}</td>
-            <td>{{playerinfo.height}}</td>
-            <td>{{playerinfo.position}}</td>
-            <td>#{{playerinfo.number}}</td>
-            <td>{{playerinfo.birth_date}}</td>
-            <td>{{playerinfo.birth_place}}</td>
-            <td>{{playerinfo.team.name}}</td>
-        </tbody>
-    </table>
-    <p>Like count: {{playerinfo.upvoters.count()}}</p>
+        <h3>Height</h3>
+        <p>{{playerinfo.height}}</p>
+
+        <h3>Position</h3>
+        <p>{{playerinfo.position}}</p>
+
+        <h3>Age</h3>
+        <p>{{playerinfo.age}}</p>
+
+        <h3>Jersey Number</h3>
+        <p>{{playerinfo.number}}</p>
+
+        <h3>Birth Date</h3>
+        <p>{{playerinfo.birth_date}}</p>
+
+        <h3>Birth Place</h3>
+        <p>{{playerinfo.birth_place}}</p>
+    </div>
+
+    <div class="player_profile_details">
+        <h1 class="player_profile_title">Team</h1>
+        <a href="/team/{{playerinfo.team.name}}">
+        <img class="player_team_img" src="{{playerinfo.team.image}}" alt="{{playerinfo.team.name}}">
+        <h1 class="team_name">{{playerinfo.team.name}}</h1></a>
+    </div>
+
+    <div class="player_profile_details">
+        <h1 class="player_profile_title">Awards</h1>
+        <p>This</p>
+        <p>That</p>
+        <p>And Many More!</p>
+    </div>
 
 {% endif %}
 
@@ -41,51 +54,65 @@
         <img class="player-profile" src="{{playerinfo.image}}" alt="{{playerinfo.name}}">
     </div>
     <h1 class="playername">{{playerinfo.name.split()[0]}}<br>{{playerinfo.name.split()[1]}}</h1>
-    <div class="playerinfo">
-        <table>
-            <thead>
-                <tr>
-                    <th>Age</th>
-                    <th>Height</th>
-                    <th>Position</th>
-                    <th>Number</th>
-                    <th>Birth Date</th>
-                    <th>Birth Place</th>
-                    <th>Team</th>
-                </tr>
-            </thead>
 
-            <tbody>
-                <td>{{playerinfo.age}}</td>
-                <td>{{playerinfo.height}}</td>
-                <td>{{playerinfo.position}}</td>
-                <td>#{{playerinfo.number}}</td>
-                <td>{{playerinfo.birth_date}}</td>
-                <td>{{playerinfo.birth_place}}</td>
-                <td>{{playerinfo.team.name}}</td>
-            </tbody>
-        </table>
-    </div>
     <!--Allows user to like the player if they haven't-->
     {% if not liked %}
-        <p>Like count: {{playerinfo.upvoters.count()}}</p>
         <form method="POST">
             <div class="submitbutton">
+                <p>Like count: {{playerinfo.upvoters.count()}}</p>
                 <input id="submit" type="image" src="https://cdn.pixabay.com/photo/2013/07/13/12/15/hand-159474_960_720.png" alt="Like" value="Like">
             </div>
         </form>
     {% endif %}
     <!--Allows user to dislike the player if they have liked them-->
     {% if liked %}
-        <p>liked</p>
         <form method="POST">
             <div class="submitbutton">
+                <p>liked</p>
+                <p>Like count: {{playerinfo.upvoters.count()}}</p>
                 <input id="submit" type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Font_Awesome_5_solid_thumbs-down.svg/1024px-Font_Awesome_5_solid_thumbs-down.svg.png" alt="Dislike" value="Dislike">
             </div>
         </form>
-        <p>Like count: {{playerinfo.upvoters.count()}}</p>
+        
 
     {% endif %}
+
+    <div class="playerinfo">
+            <h3>Name</h3>
+            <p>{{playerinfo.name}}</p>
+
+            <h3>Height</h3>
+            <p>{{playerinfo.height}}</p>
+
+            <h3>Position</h3>
+            <p>{{playerinfo.position}}</p>
+
+            <h3>Age</h3>
+            <p>{{playerinfo.age}}</p>
+
+            <h3>Jersey Number</h3>
+            <p>{{playerinfo.number}}</p>
+
+            <h3>Birth Date</h3>
+            <p>{{playerinfo.birth_date}}</p>
+
+            <h3>Birth Place</h3>
+            <p>{{playerinfo.birth_place}}</p>
+    </div>
+    
+    <div class="player_profile_details">
+        <h1 class="player_profile_title">Team</h1>
+        <a href="/team/{{playerinfo.team.name}}">
+        <img class="player_team_img" src="{{playerinfo.team.image}}" alt="{{playerinfo.team.name}}">
+        <h1 class="team_name">{{playerinfo.team.name}}</h1></a>
+    </div>
+
+    <div class="player_profile_details">
+        <h1 class="player_profile_title">Awards</h1>
+        <p>This</p>
+        <p>That</p>
+        <p>And Many More!</p>
+    </div>
 
 {% endif %}
 
