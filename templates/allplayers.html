@@ -1,72 +1,27 @@
 {%extends "layout.html"%}
 {%block content%}
 
-<!--Mini nav bar that allows users to jump to a certain letter-->
-<a href='#K'>K</a>
+{% for i in range(26) %}
+<!--Mini nav bar that allows users to jump to a specific letter-->
+<ul class="playernameindex">
+    <li class="playerindexlist"><a class="indexlink" href='#{{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i] }}'>{{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i] }}</a></li>
+</ul>
 
-<!--Players with names starting with G-->
-<h2>G</h2>
-{% for playerG in p_startWithG %}
-<ul>
-    <li> <a href="/player/{{playerG.name}}">{{ playerG.name }}    </a></li>
-</ul>    
 {% endfor %}
 
-<!--Players with names starting with H-->
-<h2>H</h2>
-{% for playerH in p_startWithH %}
-<ul>
-    <li> <a href="/player/{{playerH.name}}">{{ playerH.name }}    </a></li>
-</ul>    
-{% endfor %}
+<p class="line"></p>
 
-<!--Players with names starting with J-->
-<h2>J</h2>
-{% for playerJ in p_startWithJ %}
-<ul>
-    <li> <a href="/player/{{playerJ.name}}">{{ playerJ.name }}    </a></li>
-</ul>    
-{% endfor %}
+{% for i in range(26) %}
+    <!--Sort players by their first letter-->
+    <div id='{{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i] }}' class="topletter">
+        <h2>{{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i] }}</h2>
+        {% for player in q[i] %}
+        <ul>
+            <li> <a href="/player/{{player.name}}">{{ player.name }}    </a></li>
+        </ul>    
+        {% endfor %}
+    </div>
+    
 
-<!--Players with names starting with K-->
-<div id="K">
-<h2>K</h2>
-{% for playerK in p_startWithK %}
-<ul>
-    <li> <a href="/player/{{playerK.name}}">{{ playerK.name }}    </a></li>
-</ul> 
-{% endfor %}
-</div>
-
-<!--Players with names starting with L-->
-<h2>L</h2>
-{% for playerL in p_startWithL %}
-<ul>
-    <li> <a href="/player/{{playerL.name}}">{{ playerL.name }}    </a></li>
-</ul>    
-{% endfor %}
-
-<!--Players with names starting with M-->
-<h2>M</h2>
-{% for playerM in p_startWithM %}
-<ul>
-    <li> <a href="/player/{{playerM.name}}">{{ playerM.name }}    </a></li>
-</ul>    
-{% endfor %}
-
-<!--Players with names starting with S-->
-<h2>S</h2>
-{% for playerS in p_startWithS %}
-<ul>
-    <li> <a href="/player/{{playerS.name}}">{{ playerS.name }}    </a></li>
-</ul>    
-{% endfor %}
-
-<!--Players with names starting with Y-->
-<h2>Y</h2>
-{% for playerY in p_startWithY %}
-<ul>
-    <li> <a href="/player/{{playerY.name}}">{{ playerY.name }}    </a></li>
-</ul>    
 {% endfor %}
 {%endblock%}

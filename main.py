@@ -82,15 +82,11 @@ def home():
 
 @app.route('/all-players')
 def allplayers():
-    return render_template('allplayers.html', p_startWithL=Player.query.filter(Player.name.startswith('L')).all(), 
-                                              p_startWithK=Player.query.filter(Player.name.startswith('K')).all(),
-                                              p_startWithH=Player.query.filter(Player.name.startswith('H')).all(),
-                                              p_startWithJ=Player.query.filter(Player.name.startswith('J')).all(),
-                                              p_startWithG=Player.query.filter(Player.name.startswith('G')).all(),
-                                              p_startWithM=Player.query.filter(Player.name.startswith('M')).all(),
-                                              p_startWithY=Player.query.filter(Player.name.startswith('Y')).all(),
-                                              p_startWithS=Player.query.filter(Player.name.startswith('S')).all()
-                                              )
+    result = []
+    for i in range(26):
+        var = chr(65+i)
+        result.append(Player.query.filter(Player.name.startswith(var)).all())
+    return render_template('allplayers.html', q=result)
 
 @app.route('/player/<player_name>', methods=['GET','POST'])
 def playerprofile(player_name):
@@ -125,12 +121,13 @@ def signup():
             # checks if user already has an account under the same email
             existing_user = User.query.filter_by(email=email).first()
             if existing_user is None:
-                user = User(name=name, email=email)
-                user.set_password(password)
-                db.session.add(user)
-                db.session.commit()
-                login_user(user)
-                return redirect(url_for('home'))
+                if(('@' in email) & ((".com" in email) | (".nz" in email))):
+                    user = User(name=name, email=email)
+                    user.set_password(password)
+                    db.session.add(user)
+                    db.session.commit()
+                    login_user(user)
+                    return redirect(url_for('home'))
     return render_template('register.html', form=signup_form)
 
 @app.route('/login', methods=['GET', 'POST'])

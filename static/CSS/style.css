@@ -151,3 +151,27 @@ h1.team_name {
     line-height: 100px;
     padding-left: 10px;
 }
+
+ul.playernameindex{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    float: left;
+}
+
+li a.indexlink{
+    display: block;
+    padding: 15px;
+    padding-left: 20px;
+    text-decoration: none;
+}
+
+.topletter{
+    clear: left;
+}
+
+p.line{
+    clear: left;
+    border-bottom: 1px solid blue;
+}
