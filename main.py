@@ -108,6 +108,12 @@ def playerprofile(player_name):
         return render_template('player_profile.html', player_info=Player.query.filter_by(name=player_name).all())
     return render_template('player_profile.html', liked=liked, player_info=Player.query.filter_by(name=player_name).all())
 
+@app.route('/team/<team_name>', methods=['GET','POST'])
+def teampage(team_name):
+    team=Team.query.filter_by(name=team_name).all()
+    team_players=Player.query.filter_by(team_id=Team.query.filter_by(name=team_name).first().id).all()
+    return render_template('team_page.html', team=team, team_players=team_players)
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     signup_form = SignupForm(request.form)

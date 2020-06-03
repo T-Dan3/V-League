@@ -1,0 +1,21 @@
+{%extends "layout.html"%}
+{%block content%}
+
+{% for teaminfo in team %}
+
+<img src="{{teaminfo.image}}">
+<h1>{{teaminfo.name}}</h1>
+<p>{{teaminfo.founded_date}}{{teaminfo.stadium}}{{teaminfo.chairman}}</p>
+
+{% for teamplayers in team_players %}
+
+<ul>
+    <li>
+        <a href="/player/{{teamplayers.name}}">{{teamplayers.name}}</a>
+    </li>
+</ul>
+
+{% endfor %}
+
+{% endfor %}
+{%endblock%}
