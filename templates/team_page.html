@@ -3,19 +3,72 @@
 
 {% for teaminfo in team %}
 
-<img src="{{teaminfo.image}}">
-<h1>{{teaminfo.name}}</h1>
-<p>{{teaminfo.founded_date}}{{teaminfo.stadium}}{{teaminfo.chairman}}</p>
+  <img src="{{teaminfo.image}}">
+  <h1>{{teaminfo.name}}</h1>
+  <p>{{teaminfo.founded_date}}{{teaminfo.stadium}}{{teaminfo.chairman}}</p>
 
-{% for teamplayers in team_players %}
+  {% for teamplayers in team_players %}
+    <a href="#carousel__slide{{teamplayers.id - 1}}">{{ teamplayers.id - team_players[0].id + 1 }}</a>
 
-<ul>
-    <li>
-        <a href="/player/{{teamplayers.name}}">{{teamplayers.name}}</a>
-    </li>
-</ul>
+    <!-- length of team players list - {{team_players|length}}-->
+  {% endfor %}
 
-{% endfor %}
+
+
+  <div id="bodi">
+    <section class="carousel" aria-label="Gallery">
+      <ol class="carousel__viewport">
+        {% for teamplayers in team_players %}
+        {% set n = teamplayers.id - team_players[0].id %}
+        <li id="carousel__slide{{ n }}"
+          style = "background-image: url('{{ teamplayers.image }}'); background-size: 100%; background-repeat: no-repeat; background-position: center;" 
+          tabindex="0"
+          class="carousel__slide">
+          
+          <div class="carousel__snapper">
+            <a href="#carousel__slide{{ n-1 if n-1 > -1 else team_players[team_players|length-1].id-team_players[0].id }}"
+              class="carousel__prev">Go to last slide</a>
+            <a href="#carousel__slide{{ n+1 if n+1 < team_players|length else 0 }}"
+              class="carousel__next">Go to next slide</a>
+          </div>
+          <p id="playername">test</p>
+        </li>
+
+        {% endfor %}
+
+        <!--<li id="carousel__slide2"
+            tabindex="0"
+            class="carousel__slide">
+          <div class="carousel__snapper"></div>
+          <a href="#carousel__slide1"
+            class="carousel__prev">Go to previous slide</a>
+          <a href="#carousel__slide3"
+            class="carousel__next">Go to next slide</a>
+        </li>
+        <li id="carousel__slide3"
+            tabindex="0"
+            class="carousel__slide">
+          <div class="carousel__snapper"></div>
+          <a href="#carousel__slide2"
+            class="carousel__prev">Go to previous slide</a>
+          <a href="#carousel__slide4"
+            class="carousel__next">Go to next slide</a>
+        </li>
+
+
+
+        <li id="carousel__slide4"
+            tabindex="0"
+            class="carousel__slide">
+          <div class="carousel__snapper"></div>
+          <a href="#carousel__slide3"
+            class="carousel__prev">Go to previous slide</a>
+          <a href="#carousel__slide1"
+            class="carousel__next">Go to first slide</a>
+        </li>-->
+      </ol>
+    </section>
+  </div>
 
 {% endfor %}
 {%endblock%}
