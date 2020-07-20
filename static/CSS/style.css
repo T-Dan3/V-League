@@ -266,11 +266,19 @@ p.line{
     -ms-overflow-style: none;
   }
   
-  ol, li {
+  ol, li.carousel__slide {
     list-style: none;
     margin: 0;
     padding: 0;
     height: 35rem;
+  }
+
+  li.carousel__slide:hover{
+    opacity: 0.5;
+  }
+
+  li.carousel__slide:hover::after{
+    font-size: 40px;
   }
   
   .carousel {
@@ -418,4 +426,18 @@ p.line{
   
   .carousel::after {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='100,50 20,100 20,0' fill='%23fff'/%3E%3C/svg%3E");
+  }
+
+  .player_names {
+    display: none;
+  }
+
+  li.carousel__slide:hover .player_names{
+    display: block;
+  }
+
+  p.player_name{
+    font-size: 2rem;
+    color: black;
+    padding-left: 10px;
   }
