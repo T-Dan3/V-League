@@ -1,14 +1,17 @@
-<div class="navbar">
-    <a class="logo" href="/"><div class="logo"><img class="logo" src="https://www.kovo.co.kr/images/intro/em_po_1819.png" alt="Home"></div></a>
-    <a class="navitems">TEAMS</a>
-    <a class="navitems" href="/all-players">PLAYERS</a>
-    <a class="navitems" href="/schedule">SCHEDULE</a>
-    <div class="nav-right">
-        {% if not current_user.is_authenticated %}
-            <a class="navitems" href="/login">LOGIN</a>
-        {% endif %}
-        {% if current_user.is_authenticated %}
-            <a class="navitems" href="/logout">LOGOUT</a>
-        {% endif %}
+<div class="wrapper">
+    <div class="navbar">
+        <a class="logo" href="/"><div class="logo"><img class="logo" src="/static/Images/logo.png" alt="Home"></div></a>
+        <a class="navitems" href="/all-teams">TEAMS</a>
+        <a class="navitems" href="/all-players">PLAYERS</a>
+        <a class="navitems" href="/schedule">SCHEDULE</a>
+        <div class="nav-right">
+            {% if not current_user.is_authenticated %}
+                <a class="navitems" href="/login">LOGIN</a>
+            {% endif %}
+            {% if current_user.is_authenticated %}
+                <a class="navitems" href="/logout">LOGOUT</a>
+            {% endif %}
+        </div>
     </div>
 </div>
+

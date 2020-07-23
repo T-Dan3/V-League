@@ -1,0 +1,14 @@
+{%extends "layout.html"%}
+{%block content%}
+
+<div class="row">
+    {% for teams in teams %}
+    <a href="/team/{{teams.name}}">
+    <div class="column">
+        {{teams.name}}
+    </div>
+    </a>
+    {% endfor %}
+</div>
+
+{%endblock%}

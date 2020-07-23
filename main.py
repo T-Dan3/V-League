@@ -88,6 +88,12 @@ def allplayers():
         result.append(Player.query.filter(Player.name.startswith(var)).all())
     return render_template('allplayers.html', q=result)
 
+@app.route('/all-teams')
+def allteams():
+    teams = Team.query.all()
+    return render_template('allteams.html', teams=teams)
+
+
 @app.route('/player/<player_name>', methods=['GET','POST'])
 def playerprofile(player_name):
     if current_user.is_authenticated:

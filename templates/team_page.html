@@ -22,6 +22,7 @@
           style = "background-image: url('{{ teamplayers.image }}'); background-size: 100%; background-repeat: no-repeat; background-position: center;" 
           tabindex="0"
           class="carousel__slide">
+          <a class="player_card_link" href="/player/{{teamplayers.name}}">
           <div class="player_names">
             <p class="player_name">{{teamplayers.name}}</p>
           </div>
@@ -31,6 +32,7 @@
             <a href="#carousel__slide{{ n+1 if n+1 < team_players|length else 0 }}"
               class="carousel__next">Go to next slide</a>
           </div>
+        </a>
         </li>
         {% endfor %}
       </ol>
