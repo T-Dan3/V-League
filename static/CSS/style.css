@@ -3,8 +3,8 @@ html {
 }
 
 img.logo {
-    width: 180px;
-    height: 60px;
+    width: 10rem;
+    height: 3.5rem;
     margin-top: 10px;
 }
 
@@ -27,11 +27,28 @@ li {
   position: relative;
 }
 
+.page-wrapper {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.navholder {
+  padding-left: 30px;
+  position: relative;
+  height: 80px;
+}
+
 .navbar {
     overflow: hidden;
     background-color: black;
-    height: 80px;
-    line-height: 85px;
+}
+
+.navlink{
+  margin: 0;
+  top: 40%;
+  position: inherit;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .navbar a {
@@ -444,15 +461,32 @@ p.line{
   }
 
   .column {
-    width: 50%;
-    height: 200px;
+    width: 40%;
+    height: 10rem;
     float: left;
-    border: 0.5px solid black;
-    background-color: grey;
+    margin: 10px;
+    margin-left: 0;
+    border: 1px solid grey;
+    box-shadow: 3px 3px lightgrey;
   }
 
   .row {
     clear: both;
     content: "";
-    display: table;
+  }
+
+  img.teamlogo {
+    max-height: 9rem;
+    vertical-align: middle;
+  }
+
+  .holder {
+     display: inline-flex;
+     float: left;
+     width: 200px;
+  }
+
+  h2.division {
+    float: left;
+    clear: left;
   }
