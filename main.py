@@ -138,7 +138,7 @@ def home():
             top_players_list.append(all_players[i].id)
     #Query for the top upvoted players
     top_players = Player.query.filter(Player.id.in_(top_players_list)).all()
-    #Query for today and tomorrow's first and second teams 
+    #Query for today and tomorrow's first and second teams
     tmr_first_teams = [Team.query.filter_by(id=id).one() for id in tmr_first_teams_list]
     tmr_second_teams = [Team.query.filter_by(id=id).one() for id in tmr_second_teams_list]
     today_first_teams = [Team.query.filter_by(id=id).one() for id in first_team_list]
