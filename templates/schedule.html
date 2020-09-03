@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{%block content %}
+
+<div class="page-wrapper">
+    <h2>All Games</h2>
+        {% for i in range(all_first_teams|length) %}
+            <p><a href="/team/{{all_first_teams[i].name}}">{{all_first_teams[i].name}}</a> VS <a href="/team/{{all_second_teams[i].name}}">{{all_second_teams[i].name}}</a></p> {{all_date[i].date}}
+        {% endfor %}
+</div>
+{% endblock %}

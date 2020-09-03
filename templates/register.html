@@ -1,36 +1,38 @@
 <!DOCTYPE html>
-
 <html>
     <body>
-        <div class="registerbox">
-            <form action="{{ url_for('signup') }}" method="POST">
-                <h1>Sign Up</h1>
-                {{ form.csrf_token }}
-                <fieldset class="username">
-                    {{ form.username.label }}
-                    {{ form.username(placeholder='This is your login username') }}
-                </fieldset>
+        <div class="logregbackground">
+            <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="/static/CSS/style.css">
+            <div class="logregbox">
+                <form action="{{url_for('signup')}}" method="POST">
+                    <h1 class="logreg">SIGNUP</h1>
 
-                <fieldset class="email">
-                    {{ form.email.label }}
-                    {{ form.email(placeholder='youremail@example.com') }}
-                </fieldset>
+                    {{ form.csrf_token }}
 
-                <fieldset class="password">
-                    {{ form.password.label }}
-                    {{ form.password }}
-                </fieldset>
+                    <fieldset class="username">
+                        {{form.username(placeholder='Username')}}
+                    </fieldset>
 
-                <fieldset class="confirm">
-                    {{ form.confirm.label }}
-                    {{ form.confirm }}
-                </fieldset>
+                    <fieldset class="email">
+                        {{ form.email(placeholder='Email') }}
+                    </fieldset>
 
-                <div class="submitbutton">
-                    <input id="submit" type="submit" value="Submit">
-                </div>
+                    <fieldset class="password">
+                        {{ form.password(placeholder='Password') }}
+                    </fieldset>
 
-            </form>
+                    <fieldset class="confirm">
+                        {{form.confirm(placeholder='Confirm Your Password')}}
+                    </fieldset>
+
+                    <div class="loginsubmitbutton">
+                        <input id="loginsubmit" type="submit" value="Sign Up">
+                    </div>               
+                </form>
+                <p class="signup">Already have an account?</p>
+                <a class="signup" href="/login">Login here!</a>
+            </div>
         </div>
     </body>
 </html>

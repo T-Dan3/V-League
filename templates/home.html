@@ -1,3 +1,28 @@
 {%extends "layout.html"%}
 {%block content%}
+    
+<div class="page-wrapper">
+    <div class="games_preview">
+        <h2>Today's Games</h2>
+        <ul>
+        {% for i in range(today_first_teams|length) %}
+            <li><p><a href="/team/{{today_first_teams[i].name}}">{{today_first_teams[i].name}}</a> VS <a href="/team/{{today_second_teams[i].name}}">{{today_second_teams[i].name}}</a></p></li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    <div class="games_preview">
+        <h2>Tomorrow's Games</h2>
+        {% for i in range(tmr_first_teams|length) %}
+            <p><a href="/team/{{tmr_first_teams[i].name}}">{{tmr_first_teams[i].name}}</a> VS <a href="/team/{{tmr_second_teams[i].name}}">{{tmr_second_teams[i].name}}</a></p>
+        {% endfor %}
+    </div>
+
+    <div class="top_players">
+        <h2>Most Upvoted Players</h2>
+        {% for top_players in top_players %}
+            <p><a href="/player/{{top_players.name}}">{{top_players.name}}</a></p>
+        {% endfor %}
+    </div>
+</div>
 {%endblock%}

@@ -3,42 +3,67 @@
 
 <div class="page-wrapper">
   {% for teaminfo in team %}
-
-    <img src="{{teaminfo.image}}">
-    <h1>{{teaminfo.name}}</h1>
-    <p>{{teaminfo.founded_date}}{{teaminfo.stadium}}{{teaminfo.chairman}}</p>
-
-  <!--  {% for teamplayers in team_players %}
-      <a href="#carousel__slide{{teamplayers.id - 1}}">{{ teamplayers.id - team_players[0].id + 1 }}</a>
-
-      length of team players list - {{team_players|length}}
-    {% endfor %}-->
-    
-    <div id="bodi">
-      <section class="carousel" aria-label="Gallery">
-        <ol class="carousel__viewport">
-          {% for teamplayers in team_players %}
-          {% set n = teamplayers.id - team_players[0].id %}
-          <li id="carousel__slide{{ n }}"
-            style = "background-image: url('{{ teamplayers.image }}'); background-size: 100%; background-repeat: no-repeat; background-position: center;" 
-            tabindex="0"
-            class="carousel__slide">
-            <a class="player_card_link" href="/player/{{teamplayers.name}}">
-            <div class="player_names">
-              <p class="player_name">{{teamplayers.name}}</p>
-            </div>
-            <div class="carousel__snapper">
-              <a href="#carousel__slide{{ n-1 if n-1 > -1 else team_players[team_players|length-1].id-team_players[0].id }}"
-                class="carousel__prev">Go to last slide</a>
-              <a href="#carousel__slide{{ n+1 if n+1 < team_players|length else 0 }}"
-                class="carousel__next">Go to next slide</a>
-            </div>
-          </a>
-          </li>
-          {% endfor %}
-        </ol>
-      </section>
+    <div class="teampage">
+      <img class="team" src="{{teaminfo.image}}">
+    </div>
+    <h1 class="teamname">{{teaminfo.name}}</h1>
+    <!-- MAKE THIS ONLY FOR ADMIN ACCOUNT TOO DANGEROUS FOR JUST ANY USER
+    {% if current_user.is_authenticated %}
+    <form method="POST">
+      <div class="delete">
+          <input id="delete" type="submit" value="Delete">
+      </div>
+    </form>
+   {% endif %}
+   -->
+    <table>
+      <tr>
+        <th class="topleft">Chairman</th>
+        <td>{{teaminfo.chairman}}</td>
+        <th>Stadium</th>
+        <td class="top">{{teaminfo.stadium}}</td>
+      </tr>
+      <tr>
+        <th class="btmleft">Founded Year</th>
+        <td class="btm">{{teaminfo.founded_date}}</td>
+        <th class="btm">Number of players</th>
+        <td class="btm">{{team_players|length}}</td>
+      </tr>
+    </table>
+    <div class="playersbox">
+      <div id="bodi">
+        <section class="carousel" aria-label="Gallery">
+          <ol class="carousel__viewport">
+            {% for teamplayers in team_players %}
+            {% set n = teamplayers.id - team_players[0].id %}
+            <li id="carousel__slide{{ n }}"
+              style = "background-image: url('{{ teamplayers.image }}'); background-size: 100%; background-repeat: no-repeat; background-position: center;" 
+              tabindex="0"
+              class="carousel__slide">
+              <div class="overlay"></div>
+              <a class="player_card_link" href="/player/{{teamplayers.name}}">
+              <div class="player_names">
+                <p class="player_name">{{teamplayers.name}}</p>
+              </div>
+              <div class="carousel__snapper">
+                <a href="#carousel__slide{{ n-1 if n-1 > -1 else team_players[team_players|length-1].id-team_players[0].id }}"
+                  class="carousel__prev">Go to last slide</a>
+                <a href="#carousel__slide{{ n+1 if n+1 < team_players|length else 0 }}"
+                  class="carousel__next">Go to next slide</a>
+              </div>
+            </a>
+            </li>
+            {% endfor %}
+          </ol>
+        </section>
+      </div>
     </div>
   {% endfor %}
+  <div class="team_profile_details">
+    <h1 class="box_title">Awards</h1>
+    <p>This</p>
+    <p>That</p>
+    <p>And Many More!</p>
+  </div>
 </div>
 {%endblock%}

@@ -1,27 +1,31 @@
 {%extends "layout.html"%}
 {%block content%}
 
-{% for i in range(26) %}
-<!--Mini nav bar that allows users to jump to a specific letter-->
-<ul class="playernameindex">
-    <li class="playerindexlist"><a class="indexlink" href='#{{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i] }}'>{{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i] }}</a></li>
-</ul>
-
-{% endfor %}
-
-<p class="line"></p>
-
-{% for i in range(26) %}
-    <!--Sort players by their first letter-->
-    <div id='{{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i] }}' class="topletter">
-        <h2>{{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i] }}</h2>
-        {% for player in q[i] %}
-        <ul>
-            <li> <a href="/player/{{player.name}}">{{ player.name }}    </a></li>
-        </ul>    
-        {% endfor %}
+<div class="page-wrapper">
+    <div class="allplayersnav">
+        {% for i in range(26) %}
+        <!--Mini nav bar that allows users to jump to a specific letter-->
+        <ul class="playernameindex">
+            <li class="playerindexlist"><a class="indexlink" href='#{{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i] }}'>{{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i] }}</a></li>
+        </ul>
+        {% endfor %}    
     </div>
-    
-
-{% endfor %}
+    <div class="playerlistbox">
+        {% for i in range(26) %}
+        <!--Sort players by their first letter-->
+        <div id='{{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i] }}' class="topletter">
+            <div class="alphabetbox">
+                <h2 class="alphabet">{{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i] }}</h2>
+            </div>
+            <div class="playerlist-container">
+                {% for player in q[i] %}
+                    <ul class="playerlist">
+                        <li> <a href="/player/{{player.name}}">{{ player.name }}    </a></li>
+                    </ul> 
+                {% endfor %}
+            </div>
+        </div> 
+        {% endfor %}
+    </div>     
+</div>
 {%endblock%}

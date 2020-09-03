@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <div class="loginbox">
-            <form action="{{url_for('login')}}" method="POST">
-                <h1>Log In</h1>
+        <div class="logregbackground">
+            <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="/static/CSS/style.css">
+            <div class="logregbox">
+                <form action="{{url_for('login')}}" method="POST">
+                    <h1 class="logreg">LOGIN</h1>
 
-                {{ form.csrf_token }}
+                    {{ form.csrf_token }}
 
-                <fieldset class="email">
-                    {{ form.email.labbel }}
-                    {{ form.email(placeholder='youremail@example.com') }}
-                </fieldset>
+                    <fieldset class="email">
+                        {{ form.email(placeholder='Email') }}
+                    </fieldset>
 
-                <fieldset class="password">
-                    {{ form.password.labbel }}
-                    {{ form.password }}
-                </fieldset>
+                    <fieldset class="password">
+                        {{ form.password(placeholder='Password') }}
+                    </fieldset>
 
-                <div class="submitbutton">
-                    <input id="submit" type="submit" value="Submit">
-                </div>
-                
-            </form>
+                    <div class="loginsubmitbutton">
+                        <input id="loginsubmit" type="submit" value="Login">
+                    </div>               
+                </form>
+                <p class="signup">Don't have an account?</p>
+                <a class="signup" href="/signup">Sign up here!</a>
+            </div>
         </div>
     </body>
 </html>
