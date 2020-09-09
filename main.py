@@ -21,6 +21,8 @@ all_second_teams_list = []
 upvoters = []
 top_players_list = []
 
+user_upvotes = []
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///static/vleague.db'
 app.config['SECRET_KEY'] = "random string"
@@ -136,14 +138,27 @@ def home():
             top_players_list.append(all_players[i].id)
         if(all_players[i].upvoters.count() == upvoters[2] and upvoters[2] != 0):
             top_players_list.append(all_players[i].id)
-    #Query for the top upvoted players
+    #Query for the top upvoted players no duplicates
     top_players = Player.query.filter(Player.id.in_(top_players_list)).all()
-    #Query for today and tomorrow's first and second teams
+    #Query for today and tomorrow's first and second teams with duplicates
     tmr_first_teams = [Team.query.filter_by(id=id).one() for id in tmr_first_teams_list]
     tmr_second_teams = [Team.query.filter_by(id=id).one() for id in tmr_second_teams_list]
     today_first_teams = [Team.query.filter_by(id=id).one() for id in first_team_list]
     today_second_teams = [Team.query.filter_by(id=id).one() for id in second_team_list]
     return render_template('home.html', today_first_teams=today_first_teams, today_second_teams=today_second_teams, tmr_first_teams=tmr_first_teams, tmr_second_teams=tmr_second_teams, top_players=top_players)
+
+@app.route('/account', methods=['GET','POST'])
+def account():
+    user_upvotes.clear()
+    this_user = User.query.filter_by(id=current_user.id).first()
+    for i in range(len(current_user.upvotes)):
+        user_upvotes.append(current_user.upvotes[i].id)
+    upvotes = Player.query.filter(Player.id.in_(user_upvotes)).all()
+    if request.method == 'POST':
+        db.session.delete(this_user)
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('account.html', this_user=this_user, upvotes=upvotes)
 
 @app.route('/schedule')
 def schedule():
@@ -276,7 +291,4 @@ def load_user(user_id):
 
 if __name__ == "__main__":
    db.create_all()
-   today = date.today()
-   if str(today) == '2020-08-26':   
-    print(today)
    app.run(debug=True)

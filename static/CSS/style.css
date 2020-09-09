@@ -735,3 +735,59 @@ th.btmleft{
   float: left;
   clear: left;
 }
+
+.acc_box{
+  float: left;
+  margin-top: 1.25rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  border: 1px solid black;
+  border-radius: 1.5rem;
+  width: 100%;
+  box-shadow: 3px 3px lightgrey;
+}
+
+h1.acc_box_title{
+  border-bottom: 1px solid black;
+  text-align: left;
+}
+
+.delete_button {
+  margin-top: 1rem;
+  background-color: red;
+  border-radius: 0.5rem;
+  font-weight: bold;
+}
+
+.try{
+  display: none;
+  border: 1px solid black;
+  border-radius: 0.4rem;
+  float: left;
+  clear: left;
+  margin-top: 0.8rem;
+  padding: 0.2rem;
+  background-color: lightgrey;
+}
+
+input:checked + label + .try { 
+  display: inline-block; 
+}
+
+label{
+  background-color: red;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  box-shadow: 2px 2px lightgrey;
+  border: 1px solid black;
+  font-size: 1rem;
+  display: inline-block;
+  padding: 2px 5px;
+  margin-top: 1rem;
+  cursor: pointer;
+  float: left;
+}
+
+.error_prevention{
+  margin: 0;
+}

@@ -1,0 +1,27 @@
+{%extends "layout.html"%}
+{%block content%}
+
+<div class="page-wrapper">
+    <div class="acc_box">
+        <h1 class="acc_box_title">Name</h1>
+        <p>{{this_user.name}}</p>
+        <h1 class="acc_box_title">Created Date</h1>
+        <p>{{this_user.created_on}}</p>
+
+        <h1 class="acc_box_title">Upvotes</h1>
+        <ul>
+            {% for upvotes in upvotes %}
+                <li><a href="/player/{{upvotes.name}}">{{upvotes.name}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <input type='checkbox' style='display: none' id=cb>
+    <label for=cb>DELETE YOUR ACCOUNT</label>
+    <div class="try">
+        <p class="error_prevention">ARE YOU SURE YOU WANT TO DELETE YOUR ACCOUNT?<br>IF YOU ARE SURE PLEASE ENTER <strong>'YES'</strong><br></p>
+        <form method="POST">
+            <input type="text" placeholder="YES"><br>
+        </form>
+    </div>
+</div>
+{% endblock %}
