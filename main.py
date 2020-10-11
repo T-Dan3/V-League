@@ -1,4 +1,5 @@
 import datetime
+import calendar
 from flask import Flask, request, flash, url_for, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy, sqlalchemy
 from sqlalchemy.sql import exists
@@ -6,6 +7,8 @@ from flask_login import LoginManager, UserMixin, login_required, current_user, l
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField
+from wtforms.fields.html5 import DateField
+from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional
 from datetime import date
 
@@ -39,7 +42,7 @@ likes = db.Table('likes',
 
 class Player(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String, nullable = False, unique = True)
+    name = db.Column(db.String, nullable = False, unique = False)
     height = db.Column(db.Integer, nullable = False, unique = False)
     position = db.Column(db.String(30), nullable = False, unique = False)
     age = db.Column(db.Integer, nullable = False, unique = False)
@@ -59,11 +62,14 @@ class Team(db.Model):
     division = db.Column(db.String, nullable = False, unique = False)
     players = db.relationship('Player', backref='team')
 
+    def __repr__(self):
+        return '[Team {}]'.format(self.name)
+
 class TeamGames(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     first_team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable = False)
     second_team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable = False)
-    date = db.Column(db.Date, nullable = False)
+    date = db.Column(db.String, nullable = False, unique=False)
 
 class User(UserMixin, db.Model):
    id = db.Column(db.Integer, primary_key = True)
@@ -102,6 +108,23 @@ class AddTeamForm(FlaskForm):
     division = StringField('Divison', validators=[DataRequired(), Length(min=1,max=1)])
     submit = SubmitField('Add')
 
+def choice_query():
+    return Team.query.all()
+
+class AddGameForm(FlaskForm):
+    first_team = QuerySelectField(query_factory=choice_query,allow_blank=True, get_label='name')
+    second_team = QuerySelectField(query_factory=choice_query,allow_blank=True, get_label='name')
+    scheduled_date = DateField('date', format='%Y-%m-%d')
+
+class AddPlayerForm(FlaskForm):
+    name = StringField('Player Name', validators=[DataRequired()])
+    height = IntegerField('Height', validators=[DataRequired()])
+    position = SelectField(choices=[('Setter', 'Setter'), ('Opposite', 'Opposite'), ('Middle-blocker', 'Middle-blocker'), ('Outside Hitter', 'Outside Hitter'), ('Libero', 'Libero')])
+    age = IntegerField('Age', validators=[DataRequired()])
+    number = IntegerField('Number', validators=[DataRequired()])
+    birth_date = DateField('Birth Date', format='%Y-%m-%d')
+    birth_place = StringField('Birth Place', validators=[DataRequired()])
+    team = QuerySelectField(query_factory=choice_query, allow_blank=True, get_label='name')
 
 @app.route('/')
 def home():
@@ -160,25 +183,63 @@ def account():
         return redirect(url_for('home'))
     return render_template('account.html', this_user=this_user, upvotes=upvotes)
 
-@app.route('/schedule')
+@app.route('/schedule', methods=['GET','POST'])
 def schedule():
+    form = AddGameForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            id_one = request.form.get('first_team')
+            id_two = request.form.get('second_team')
+            sch_date = request.form.get('scheduled_date')
+            team_one = Team.query.filter_by(id=id_one).first()
+            team_two = Team.query.filter_by(id=id_two).first()
+            if(id_one != '__None' and id_two != '__None' and sch_date != '' and id_one != id_two):
+                day = sch_date.split('-')[2]
+                month = calendar.month_name[int(sch_date.split('-')[1])]
+                year = sch_date.split('-')[0]
+                complete_date = day + " " + month + " " + year
+                game = TeamGames(first_team_id=int(id_one), second_team_id=int(id_two), date=complete_date)
+                db.session.add(game)
+                db.session.commit()
+                return redirect (url_for('schedule'))
     all_first_teams_list.clear()
     all_second_teams_list.clear()
-    all_date = TeamGames.query.all()
+    all_date = TeamGames.query.order_by(TeamGames.date).all()
     for i in range(len(all_date)):
         all_first_teams_list.append(all_date[i].first_team_id)
         all_second_teams_list.append(all_date[i].second_team_id)
     all_first_teams = [Team.query.filter_by(id=id).one() for id in all_first_teams_list]
     all_second_teams = [Team.query.filter_by(id=id).one() for id in all_second_teams_list]
-    return render_template('schedule.html', all_second_teams=all_second_teams, all_first_teams=all_first_teams, all_date=all_date)
+    return render_template('schedule.html', all_second_teams=all_second_teams, all_first_teams=all_first_teams, all_date=all_date, form=form)
 
-@app.route('/all-players')
+@app.route('/all-players', methods=['GET', 'POST'])
 def allplayers():
+    form = AddPlayerForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            name = request.form.get('name')
+            height = request.form.get('height')
+            position = request.form.get('position')
+            age = request.form.get('age')
+            number = request.form.get('number')
+            birth_date = request.form.get('birth_date')
+            birth_place = request.form.get('birth_place')
+            team= request.form.get('team')
+            day = birth_date.split('-')[2]
+            month = calendar.month_name[int(birth_date.split('-')[1])]
+            year = birth_date.split('-')[0]
+            complete_date = day + " " + month + " " + year
+            existing_name = Player.query.filter_by(name=name).first() 
+            if(birth_place != existing_name.birth_place or birth_date != existing_name.birth_date or number != existing_name.number or team != existing_name.team_id):
+                to_add = Player(name=name, height=height, position=position, age=age, number=number, birth_date=complete_date, birth_place=birth_place, team_id=int(team))
+                db.session.add(to_add)
+                db.session.commit()
+                return redirect (url_for('allplayers'))    
     result = []
     for i in range(26):
         var = chr(65+i)
         result.append(Player.query.filter(Player.name.startswith(var)).all())
-    return render_template('allplayers.html', q=result)
+    return render_template('allplayers.html', q=result, form=form)
 
 @app.route('/player/<player_name>', methods=['GET','POST'])
 def playerprofile(player_name):
@@ -188,14 +249,20 @@ def playerprofile(player_name):
         # checks if the user has liked the player 
         liked = player.upvoters.filter_by(id=current_user.id).first()
         if request.method == 'POST':
-            if liked is None:
-                player.upvoters.append(user)
+            if request.form.get("delete"):
+                to_delete = Player.query.filter_by(name=player_name).first()
+                db.session.delete(to_delete)
                 db.session.commit()
-                return redirect(url_for('playerprofile', player_name=player_name))
-            if liked:
-                player.upvoters.remove(user)
-                db.session.commit()
-                return redirect(url_for('playerprofile', player_name=player_name))
+                return redirect (url_for('allplayers'))
+            else:
+                if liked is None:
+                    player.upvoters.append(user)
+                    db.session.commit()
+                    return redirect(url_for('playerprofile', player_name=player_name))
+                if liked:
+                    player.upvoters.remove(user)
+                    db.session.commit()
+                    return redirect(url_for('playerprofile', player_name=player_name))
     else:
         return render_template('player_profile.html', player_info=Player.query.filter_by(name=player_name).all())
     return render_template('player_profile.html', liked=liked, player_info=Player.query.filter_by(name=player_name).all())

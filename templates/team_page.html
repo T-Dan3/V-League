@@ -7,15 +7,13 @@
       <img class="team" src="{{teaminfo.image}}">
     </div>
     <h1 class="teamname">{{teaminfo.name}}</h1>
-    <!-- MAKE THIS ONLY FOR ADMIN ACCOUNT TOO DANGEROUS FOR JUST ANY USER
-    {% if current_user.is_authenticated %}
+    {% if current_user.email == "admin@gmail.com" %}
     <form method="POST">
       <div class="delete">
           <input id="delete" type="submit" value="Delete">
       </div>
     </form>
    {% endif %}
-   -->
     <table>
       <tr>
         <th class="topleft">Chairman</th>

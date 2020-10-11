@@ -31,6 +31,7 @@ position: relative;
 padding-left: 3.125rem;
 padding-right: 3.125rem;
 padding-bottom: 1rem;
+background-color: white;
 }
 
 .navholder {
@@ -87,8 +88,7 @@ h1.playername{
 }
 
 .playerimg{
-  padding-top: 30px;
-  padding-left: 30px;
+  padding-top: 1rem;
 }
 
 table, th, td {
@@ -99,7 +99,6 @@ table, th, td {
   float: left;
   clear: left;
   margin-top: 20px;
-  margin-left: 40px;
   padding: 10px;
   padding-right: 40px;
   border: 1px solid black;
@@ -147,7 +146,7 @@ h3 {
   padding-right: 20px;
   border: 1px solid black;
   border-radius: 30px;
-  width: 70%;
+  width: 75%;
 }
 
 .team_profile_details{
@@ -558,9 +557,7 @@ input#submit{
 }
 
 input#delete{
-  width: 70px;
-  height: 50px;
-  background-color: lightcoral;
+  background-color: red;
   border: 1px solid black;
 }
 
@@ -581,8 +578,8 @@ input{
 
 .submitbutton {
   float: right;
-  padding-right: 30px;
-  padding-top: 20px;
+  padding-right: 2rem;
+  padding-top: 1.25rem;
 }
 
 a.signup{
@@ -724,16 +721,22 @@ th.btmleft{
 }
 
 .games_preview{
-  float: right;
-  clear: right;
+  float: left;
+  clear: left;
   border: 1px solid black;
-  margin-top: 100px;
+  margin-top: 5%;
+  padding: 0.4rem;
+  border-radius: 1rem;
+  box-shadow: 2px 2px lightgrey;
 }
 
 .top_players{
   border: 1px solid black;
-  float: left;
-  clear: left;
+  float: right;
+  margin-top: 5%;
+  padding: 0.4rem;
+  border-radius: 1rem;
+  box-shadow: 2px 2px lightgrey;
 }
 
 .acc_box{
@@ -759,7 +762,7 @@ h1.acc_box_title{
   font-weight: bold;
 }
 
-.try{
+.error_prevention_box{
   display: none;
   border: 1px solid black;
   border-radius: 0.4rem;
@@ -768,9 +771,10 @@ h1.acc_box_title{
   margin-top: 0.8rem;
   padding: 0.2rem;
   background-color: lightgrey;
+  margin-bottom: 0.8rem;
 }
 
-input:checked + label + .try { 
+input:checked + label + .error_prevention_box { 
   display: inline-block; 
 }
 
@@ -790,4 +794,63 @@ label{
 
 .error_prevention{
   margin: 0;
+}
+
+.home_header {
+  border-bottom: 1px solid black;
+}
+
+.VS{
+  font-size: 1.5rem;
+}
+
+.mini_homepage_left_logo{
+  max-width: 5rem;
+  max-height: 4rem;
+  float: left;
+  clear: left;
+}
+
+.mini_homepage_right_logo{
+  max-width: 5rem;
+  max-height: 4rem;
+  float: right;
+}
+
+.team_preview{
+  float: left;
+  text-align: center;
+}
+
+.mini_holder{
+  width: 5rem;
+  height: 4rem;
+  display: inline-flex;
+  float: left;
+  clear: left;
+}
+
+.like_count{
+  float: right;
+  padding-right: 2rem;
+  padding-top: 1.25rem;
+}
+
+.add_form{
+  float: right;
+  border: 1px solid black;
+  clear: right;
+}
+
+.add_game_header{
+  text-align: center;
+}
+
+.add_player_form{
+  border: 1px solid grey;
+  box-shadow: 3px 3px lightgrey;
+}
+
+.add_player{
+  columns: 3;
 }

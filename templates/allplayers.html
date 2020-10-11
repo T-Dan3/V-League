@@ -26,6 +26,41 @@
             </div>
         </div> 
         {% endfor %}
+    </div>
+    {% if current_user.is_authenticated %}
+    <div class="add_player_form">
+        <h2 class="add_game_header">Add a player</h2>
+        <form class='add_player' action="{{url_for('allplayers')}}" method="POST">
+            {{form.csrf_token}}
+            <fieldset>
+                Name: {{form.name}}
+            </fieldset>
+            <fieldset>
+                Height: {{form.height}}
+            </fieldset>
+            <fieldset>
+                Position: {{form.position}}
+            </fieldset>
+            <fieldset>
+                Age: {{form.age}}
+            </fieldset>
+            <fieldset>
+                Jersey Number: {{form.number}}
+            </fieldset>
+            <fieldset>
+                Birth Date: {{form.birth_date}}
+            </fieldset>
+            <fieldset>
+                Birth Place: {{form.birth_place}}
+            </fieldset>
+            <fieldset>
+                Team: {{form.team}}
+            </fieldset>
+            <fieldset>
+                <input type="submit">
+            </fieldset>
+        </form>
     </div>     
+    {% endif %}
 </div>
 {%endblock%}

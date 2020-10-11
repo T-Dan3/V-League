@@ -2,9 +2,32 @@
 {%block content %}
 
 <div class="page-wrapper">
+    {% if current_user.is_authenticated %}
+    <div class="add_form">
+        <h2 class="add_game_header">Add a schduled game</h2>
+        <form class='add_game' action="{{url_for('schedule')}}" method="POST">
+            {{form.csrf_token}}
+            <fieldset>
+                {{form.first_team}}
+            </fieldset>
+            <fieldset>
+                {{form.second_team}}
+            </fieldset>
+            <fieldset>
+                {{form.scheduled_date}}
+            </fieldset>
+            <fieldset>
+                <input type="submit">
+            </fieldset>
+        </form>
+    </div>
+    {% endif %}
     <h2>All Games</h2>
         {% for i in range(all_first_teams|length) %}
-            <p><a href="/team/{{all_first_teams[i].name}}">{{all_first_teams[i].name}}</a> VS <a href="/team/{{all_second_teams[i].name}}">{{all_second_teams[i].name}}</a></p> {{all_date[i].date}}
+            <p>
+                <a href="/team/{{all_first_teams[i].name}}">{{all_first_teams[i].name}}</a> VS <a href="/team/{{all_second_teams[i].name}}">{{all_second_teams[i].name}}</a>
+            </p>
+            {{all_date[i].date}}
         {% endfor %}
 </div>
 {% endblock %}

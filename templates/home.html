@@ -2,27 +2,42 @@
 {%block content%}
     
 <div class="page-wrapper">
+
+    <div class="top_players">
+        <h2 class="home_header">Most Upvoted Players</h2>
+        {% for top_players in top_players %}
+            <p><a href="/player/{{top_players.name}}">{{top_players.name}}</a></p>
+        {% endfor %}
+    </div>
+
     <div class="games_preview">
-        <h2>Today's Games</h2>
+        <h2 class="home_header">Today's Games</h2>
         <ul>
         {% for i in range(today_first_teams|length) %}
-            <li><p><a href="/team/{{today_first_teams[i].name}}">{{today_first_teams[i].name}}</a> VS <a href="/team/{{today_second_teams[i].name}}">{{today_second_teams[i].name}}</a></p></li>
+            <li>
+                <div class="mini_holder">
+                    <img class="mini_homepage_left_logo" src="{{today_first_teams[i].image}}">
+                </div>
+                <p class="team_preview"><a href="/team/{{today_first_teams[i].name}}">{{today_first_teams[i].name}}</a><span class="VS"> VS </span><a href="/team/{{today_second_teams[i].name}}">{{today_second_teams[i].name}}</a></p><img class="mini_homepage_right_logo" src="{{today_second_teams[i].image}}">
+            </li>
         {% endfor %}
         </ul>
     </div>
 
     <div class="games_preview">
-        <h2>Tomorrow's Games</h2>
+        <h2 class="home_header">Tomorrow's Games</h2>
+        <ul>
         {% for i in range(tmr_first_teams|length) %}
-            <p><a href="/team/{{tmr_first_teams[i].name}}">{{tmr_first_teams[i].name}}</a> VS <a href="/team/{{tmr_second_teams[i].name}}">{{tmr_second_teams[i].name}}</a></p>
+            <li>
+                <div class="mini_holder">
+                    <img class="mini_homepage_left_logo" src="{{tmr_first_teams[i].image}}">
+                </div>
+                <p class="team_preview"><a href="/team/{{tmr_first_teams[i].name}}">{{tmr_first_teams[i].name}}</a><span class="VS"> VS </span><a href="/team/{{tmr_second_teams[i].name}}">{{tmr_second_teams[i].name}}</a></p><img class="mini_homepage_right_logo" src="{{tmr_second_teams[i].image}}">
+            </li>
         {% endfor %}
+        </ul>
     </div>
 
-    <div class="top_players">
-        <h2>Most Upvoted Players</h2>
-        {% for top_players in top_players %}
-            <p><a href="/player/{{top_players.name}}">{{top_players.name}}</a></p>
-        {% endfor %}
-    </div>
+    
 </div>
 {%endblock%}
