@@ -2,15 +2,13 @@ html {
   scroll-behavior: smooth;
 }
 
-img.logo {
-  width: 10rem;
-  height: 3.5rem;
-  margin-top: 10px;
+body {
+  margin: 0;
 }
 
-a.logo {
-  font-weight: bold;
-  margin: 0 20px;
+ul {
+  list-style-type: none;
+  padding-left: 0;
 }
 
 a {
@@ -22,17 +20,34 @@ li {
   list-style: none;
 }
 
+h3, .home_header {
+  border-bottom: 1px solid black;
+}
+
+.page-wrapper {
+  padding-left: 3.125rem;
+  padding-right: 3.125rem;
+  padding-bottom: 1rem;
+  background-color: white;
+}
+
+/* Start of nav bar css */
+img.logo {
+  width: 10rem;
+  height: 3.5rem;
+  margin-top: 0.6rem;
+}
+
+a.logo {
+  font-weight: bold;
+  margin: 0 1rem;
+}
+
 .wrapper {
 margin: 0 auto;
 position: relative;
 }
 
-.page-wrapper {
-padding-left: 3.125rem;
-padding-right: 3.125rem;
-padding-bottom: 1rem;
-background-color: white;
-}
 
 .navholder {
 padding-left: 30px;
@@ -62,14 +77,21 @@ transform: translateY(-50%);
 }
 
 a.navitems {
-  margin: 0 20px;
+  margin: 0 1rem;
+  font-family: 'Reem Kufi', sans-serif;
+}
+
+a.navitems:active{
+  color: lightgray;
 }
 
 .nav-right {
   float: right;
-  padding-right: 30px;
+  padding-right: 2rem;
 }
+/* End of nav bar css */
 
+/* Start of player profile css */
 img.player-profile {
   border-radius: 50%;
   border-color: black;
@@ -77,93 +99,51 @@ img.player-profile {
   border-width: 1px;
   float: left;
   width: 20%;
+  margin-top: 1rem;
 }
 
 h1.playername{
-  font-size: 40px;
-  text-align: left;
-  padding-left: 20px;
-  padding-top: 25px;
+  font-size: 2.5rem;
+  padding-left: 1.2rem;
+  padding-top: 1.5rem;
   float: left;
 }
 
-.playerimg{
-  padding-top: 1rem;
-}
-
-table, th, td {
-  border: 1px solid black;
+.like_count{
+  float: right;
+  padding-right: 2rem;
+  padding-top: 1.25rem;
 }
 
 .playerinfo{
-  float: left;
   clear: left;
-  margin-top: 20px;
-  padding: 10px;
-  padding-right: 40px;
-  border: 1px solid black;
-  border-radius: 30px;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th{
-  height: 30px;
-  font-size: 18px;
-  font-family: 'Lato';
-}
-
-td {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-th, td {
-  padding: 5px;
-  text-align: left;
-}
-
-body {
-  margin: 0;
-}
-
-ul {
-  list-style-type: none;
+  padding: 0.6rem;
+  padding-right: 2.5rem;
   padding-left: 0;
 }
 
-h3 {
-  border-bottom: 1px solid black;
-}
-
 .player_profile_details {
-  float: left;
-  margin-top: 20px;
-  margin-left: 60px;
-  padding-left: 20px;
-  padding-right: 20px;
-  border: 1px solid black;
-  border-radius: 30px;
+  margin-left: 3.8rem;
   width: 75%;
 }
 
-.team_profile_details{
+.team_profile_details, .player_profile_details, .playerinfo{
   float: left;
-  margin-top: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
+  margin-top: 1.3rem;
+  padding-left: 1.3rem;
+  padding-right: 1.3rem;
   border: 1px solid black;
-  border-radius: 30px;
+  border-radius: 2rem;
+}
+
+.team_profile_details{
   width: 70%;
 }
 
 img.player_team_img {
   float: left;
   padding-bottom: 10px;
-  max-width: 250px;
-  max-height: 200px;
+  max-height: 12.5rem;
 }
 
 h1.box_title {
@@ -173,12 +153,24 @@ h1.box_title {
 
 h1.team_name {
   float: left;
-  line-height: 100px;
-  padding-left: 10px;
+  padding-top: 5%;
+  padding-left: 1rem;
 }
 
+input#submit{
+  width: 3.1rem;
+  height: 3.1rem;
+}
+
+input#delete{
+  background-color: red;
+  border: 1px solid black;
+}
+
+/* End of player profile css */
+
+/*Start of all players css */
 ul.playernameindex{
-  list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -186,29 +178,27 @@ ul.playernameindex{
 
 li a.indexlink{
   display: block;
-  padding: 15px;
-  text-decoration: none;
-  padding-left: 20px;
+  padding: 1rem;
+  padding-left: 1.2rem;
 }
 
 .allplayersnav{
 border: 1px solid grey;
 box-shadow: 3px 3px lightgrey;
 display: flex;
-text-align: center;
-margin-top: 10px;
+margin-top: 1rem;
 }
 
 .alphabetbox {
 float: left;
-width: 100px;
+width: 10%;
 text-align: center;
 background-color: lightblue;
 }
 
 .playerlistbox {
-  display: block;
-  margin-top: 10px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   height: 100%;
   border: 1px solid grey;
   box-shadow: 3px 3px lightgrey;
@@ -216,7 +206,7 @@ background-color: lightblue;
 
 .playerlist-container {
   float: left;
-  padding-left: 10px;
+  padding-left: 1rem;
 }
 
 .playerlistbox::-webkit-scrollbar {
@@ -231,6 +221,161 @@ background-color: lightblue;
 
 .topletter:last-child{
   border-bottom: none;
+}
+
+.add_form_header{
+  text-align: center;
+}
+
+.add_player_form{
+  border: 1px solid grey;
+  box-shadow: 3px 3px lightgrey;
+}
+
+.add_player{
+  columns: 3;
+}
+/* End of all players css */
+
+/* Start of all teams css */
+.column {
+  width: 40%;
+  height: 10rem;
+  float: left;
+  margin: 0.8rem;
+  margin-left: 0;
+  border: 1px solid grey;
+  box-shadow: 3px 3px lightgrey;
+}
+
+.row {
+  clear: both;
+  content: "";
+}
+
+img.teamlogo {
+  max-height: 9rem;
+}
+
+.holder {
+  display: inline-flex;
+  float: left;
+  width: 12.5rem;
+}
+
+h2.division {
+  float: left;
+  clear: left;
+}
+
+.team_form{
+  float: left;
+}
+
+form.addteam{
+  text-align: center;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-top: 2rem;
+}
+/* End of all teams css */
+
+/* Start of login and reg css */
+.logregbox {
+  width: 18.8rem;
+  height: 25rem;
+  border: 1px solid grey;
+  border-radius: 3px;
+  text-align: center;
+  
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-top: 2%;
+
+  margin: auto;
+  background-color: white;
+}
+
+fieldset{
+  border: 0;
+}
+
+input#form_submit{
+  width: 10.6rem;
+  background-color: lightblue;
+  border: 1px solid black;
+}
+
+input{
+  height: 2rem;
+}
+
+.submitbutton {
+  float: right;
+  padding-right: 2rem;
+  padding-top: 1.25rem;
+}
+
+a.logreg_ask_text{
+  color: blue;
+}
+
+a.logreg_ask_text, p.logreg_ask_text{
+  font-family: Montserrat;
+  letter-spacing: -0.5px;
+}
+
+p.logreg_ask_text{
+  margin-bottom: 0;
+  margin-top: 1.25rem;
+}
+
+h1.logreg{
+  font-family: Montserrat;
+}
+
+.logregbackground{
+  background-image: url(/static/Images/volley.png);
+  background-position: top 0px left -180px;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+/* End of login and reg css */
+
+/* Start of team page css */
+img.team, img.player_team_img{
+  max-width: 15.6rem;
+  max-height: 11.9rem;
+}
+
+h1.teamname {
+  font-family: 'Barlow', sans-serif;
+  font-size: 2.5rem;
+}
+
+.delete{
+  float: right;
+  padding-top: 2%;
+}
+
+.teampage{
+  width: 15.6rem;
+  height: 12rem;
+  float: left;
+}
+
+.team_players{
+  width: 15.6rem;
+  height: 15.6rem;
+  float: left;
+  clear: left;
 }
 
 /*THIS IS THE SLIDES*/
@@ -279,7 +424,7 @@ background-color: lightblue;
   }
 }
 
-#bodi {
+.team_players-body {
   max-width: 32rem;
   margin-top: 5%;
   padding: 0 1.25rem;
@@ -315,10 +460,6 @@ ol, li.carousel__slide {
   margin: 0;
   padding: 0;
   height: 29rem;
-}
-
-li.carousel__slide:hover::after{
-  font-size: 40px;
 }
 
 .carousel {
@@ -394,31 +535,6 @@ li.carousel__slide:hover::after{
   animation-name: none;
 }
 
-.carousel__navigation {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  text-align: center;
-}
-
-.carousel__navigation-list,
-.carousel__navigation-item {
-  display: inline-block;
-}
-
-.carousel__navigation-button {
-  display: inline-block;
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: #333;
-  background-clip: content-box;
-  border: 0.25rem solid transparent;
-  border-radius: 50%;
-  font-size: 0;
-  transition: transform 0.1s;
-}
-
 .carousel::before,
 .carousel::after,
 .carousel__prev,
@@ -483,7 +599,7 @@ li.carousel__slide:hover .player_names{
 p.player_name{
   font-size: 2rem;
   color: black;
-  padding-left: 10px;  
+  padding-left: 1rem;  
 }
 
 a.player_card_link {
@@ -493,156 +609,19 @@ a.player_card_link {
   height: 100%;
 }
 
-.column {
-  width: 40%;
-  height: 10rem;
-  float: left;
-  margin: 10px;
-  margin-left: 0;
-  border: 1px solid grey;
-  box-shadow: 3px 3px lightgrey;
-}
-
-.row {
-  clear: both;
-  content: "";
-}
-
-img.teamlogo {
-  max-height: 9rem;
-  vertical-align: middle;
-}
-
-.holder {
-    display: inline-flex;
-    float: left;
-    width: 200px;
-}
-
-h2.division {
-  float: left;
-  clear: left;
-}
-
-.logregbox {
-  width: 300px;
-  height: 400px;
-  border: 1px solid grey;
-  border-radius: 3px;
-  text-align: center;
-  
+.overlay{
   position: absolute;
-  top:0;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  padding-top: 2%;
-
-  margin: auto;
-  background-color: white;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: rgba(220, 220, 220, 0.5);
+  overflow:hidden;
 }
 
-
-fieldset{
-  border: 0;
-}
-
-label[for=email]{
-  padding-right: 1.4rem;
-}
-
-input#submit{
-  width: 50px;
-  height: 50px;
-}
-
-input#delete{
-  background-color: red;
-  border: 1px solid black;
-}
-
-.delete{
-  float: right;
-  padding-top: 2%;
-}
-
-input#loginsubmit{
-  width: 170px;
-  background-color: lightblue;
-  border: 1px solid black;
-}
-
-input{
-  height: 30px;
-}
-
-.submitbutton {
-  float: right;
-  padding-right: 2rem;
-  padding-top: 1.25rem;
-}
-
-a.signup{
-  color: blue;
-  font-family: Montserrat;
-  letter-spacing: -0.5px;
-}
-
-p.signup{
-  font-family: Montserrat;
-  letter-spacing: -0.5px;
-  margin-bottom: 0;
-  margin-top: 20px;
-}
-
-h1.logreg{
-  font-family: Montserrat;
-}
-
-h1.teamname {
-  font-family: 'Barlow', sans-serif;
-  font-size: 2.5rem;
-  float: left;
-}
-
-.logregbackground{
-  background-image: url(/static/Images/volley.png);
-  background-position: top 0px left -180px;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-}
-
-form.addteam{
-  text-align: center;
-  top:0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding-top: 30px;
-}
-
-img.team{
-  float: left;
-  max-width: 250px;
-  max-height: 190px;
-}
-
-.teampage{
-  width: 250px;
-  height: 180px;
-  margin: 0;
-  padding: 0;
-  float: left;
-}
-
-.playersbox{
-  width: 250px;
-  height: 250px;
-  float: left;
-  clear: left;
-}
-
+/* Start of team page table css */
 table {
   width: 70%;
   border-collapse:separate;
@@ -655,11 +634,9 @@ table {
 td, th {
   border-left:solid black 1px;
   border-top:solid black 1px;
-}
-
-th {
-  background-color: blue;
-  border-top: none;
+  border: 1px solid black;
+  text-align: left;
+  padding: 0.3rem;
 }
 
 td:first-child, th:first-child {
@@ -686,13 +663,14 @@ td {
   border-left: none;
   border-top: none;
   border-right: none;
-  background-color: white;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 th {
   background-color: #c2d6eb;
   font-family: 'Titillium', sans-serif;
   font-weight: 500;
+  border-top: none;
 }
 
 th.btm{
@@ -707,38 +685,57 @@ th.btmleft{
   border-bottom-left-radius: 5px;
   border-bottom: none;
 }
+/* End of team page css */
 
-.overlay{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  opacity: 0;
-  transition: .5s ease;
-  background-color: rgba(220, 220, 220, 0.5);
-  overflow:hidden;
-}
-
+/* Start of homepage css */
 .games_preview{
   float: left;
   clear: left;
-  border: 1px solid black;
-  margin-top: 5%;
-  padding: 0.4rem;
-  border-radius: 1rem;
-  box-shadow: 2px 2px lightgrey;
 }
 
 .top_players{
-  border: 1px solid black;
   float: right;
+}
+
+.top_players, .games_preview{
+  border: 1px solid black;
   margin-top: 5%;
   padding: 0.4rem;
   border-radius: 1rem;
   box-shadow: 2px 2px lightgrey;
 }
 
+.VS{
+  font-size: 1.5rem;
+}
+
+.mini_homepage_left_logo, .mini_homepage_right_logo, .mini_holder{
+  max-width: 5rem;
+  max-height: 4rem;
+}
+
+.mini_homepage_left_logo{
+  float: left;
+  clear: left;
+}
+
+.mini_homepage_right_logo{
+  float: right;
+}
+
+.team_preview{
+  float: left;
+  text-align: center;
+}
+
+.mini_holder{
+  display: inline-flex;
+  float: left;
+  clear: left;
+}
+/* End of homepage css */
+
+/* Start of account page css */
 .acc_box{
   float: left;
   margin-top: 1.25rem;
@@ -753,13 +750,6 @@ th.btmleft{
 h1.acc_box_title{
   border-bottom: 1px solid black;
   text-align: left;
-}
-
-.delete_button {
-  margin-top: 1rem;
-  background-color: red;
-  border-radius: 0.5rem;
-  font-weight: bold;
 }
 
 .error_prevention_box{
@@ -795,62 +785,20 @@ label{
 .error_prevention{
   margin: 0;
 }
+/* End of account page css */
 
-.home_header {
-  border-bottom: 1px solid black;
-}
-
-.VS{
-  font-size: 1.5rem;
-}
-
-.mini_homepage_left_logo{
-  max-width: 5rem;
-  max-height: 4rem;
-  float: left;
-  clear: left;
-}
-
-.mini_homepage_right_logo{
-  max-width: 5rem;
-  max-height: 4rem;
-  float: right;
-}
-
-.team_preview{
-  float: left;
-  text-align: center;
-}
-
-.mini_holder{
-  width: 5rem;
-  height: 4rem;
-  display: inline-flex;
-  float: left;
-  clear: left;
-}
-
-.like_count{
-  float: right;
-  padding-right: 2rem;
-  padding-top: 1.25rem;
-}
-
+/* Start of schedule page css */
 .add_form{
   float: right;
   border: 1px solid black;
   clear: right;
 }
+/* End of schedule page css */
 
-.add_game_header{
+/* Start of 404 page css */
+h1.error{
+  font-size: 5rem;
   text-align: center;
+  letter-spacing: 0.5rem;
 }
-
-.add_player_form{
-  border: 1px solid grey;
-  box-shadow: 3px 3px lightgrey;
-}
-
-.add_player{
-  columns: 3;
-}
+/* End of 404 page css */

@@ -3,9 +3,7 @@
 
 <div class="page-wrapper">
     {% for playerinfo in player_info %}
-        <div class="playerimg">
-            <img class="player-profile" src="{{playerinfo.image}}" alt="{{playerinfo.name}}">
-        </div>
+        <img class="player-profile" src="{{playerinfo.image}}" alt="{{playerinfo.name}}">
         <h1 class="playername">{{playerinfo.name.split()[0]}}<br>{{playerinfo.name.split()[1]}} {{playerinfo.name.split()[2]}}</h1>
 
         {% if not current_user.is_authenticated %}
@@ -18,7 +16,7 @@
                 <form method="POST">
                     <div class="submitbutton">
                         {% if current_user.email == "admin@gmail.com" %}
-                        <input type="submit" value="Delete" name="delete">
+                        <input id="delete" type="submit" value="Delete" name="delete">
                         {% endif %}
                         <p>Like count: {{playerinfo.upvoters.count()}}</p>
                         <input id="submit" type="image" src="https://cdn.pixabay.com/photo/2013/07/13/12/15/hand-159474_960_720.png" alt="Like" value="Like">
@@ -30,7 +28,7 @@
                 <form method="POST">
                     <div class="submitbutton">
                         {% if current_user.email == "admin@gmail.com" %}
-                        <input type="submit" value="Delete" name="delete">
+                        <input id="delete" type="submit" value="Delete" name="delete">
                         {% endif %}
                         <p>Like count: {{playerinfo.upvoters.count()}}</p>
                         <input id="submit" type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Font_Awesome_5_solid_thumbs-down.svg/1024px-Font_Awesome_5_solid_thumbs-down.svg.png" alt="Dislike" value="Dislike">

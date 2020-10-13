@@ -105,7 +105,7 @@ class AddTeamForm(FlaskForm):
     founded_date = IntegerField('Founded Date', validators=[DataRequired()])
     stadium = StringField('Stadium', validators=[DataRequired()])
     chairman = StringField('Chairman', validators=[DataRequired()])
-    division = StringField('Divison', validators=[DataRequired(), Length(min=1,max=1)])
+    division = SelectField(choices=[('M', 'Male'),('W','Women')])
     submit = SubmitField('Add')
 
 def choice_query():
@@ -243,6 +243,9 @@ def allplayers():
 
 @app.route('/player/<player_name>', methods=['GET','POST'])
 def playerprofile(player_name):
+    check_player = Player.query.filter_by(name=player_name).first()
+    if check_player is None:
+        return redirect('/404')
     if current_user.is_authenticated:
         user = User.query.filter_by(id=current_user.id).first()
         player = Player.query.filter_by(name=player_name).first()
@@ -269,6 +272,9 @@ def playerprofile(player_name):
 
 @app.route('/team/<team_name>', methods=['GET','POST'])
 def teampage(team_name):
+    check_team = Team.query.filter_by(name=team_name).first()
+    if check_team is None:
+        return redirect('/404')
     team=Team.query.filter_by(name=team_name).all()
     team_players=Player.query.filter_by(team_id=Team.query.filter_by(name=team_name).first().id).all()
     if request.method == 'POST':
@@ -292,7 +298,7 @@ def allteams():
             # checks if user already has an account under the same email
             existing_user = Team.query.filter_by(name=name).first()
             if existing_user is None:
-                if length_test == 4 and int(founded_date) > 0 and (division == 'M' or division == 'W'):
+                if length_test == 4 and int(founded_date) > 0:
                     team = Team(name=name, founded_date=founded_date, stadium=stadium, chairman=chairman, division=division)
                     db.session.add(team)
                     db.session.commit()
@@ -349,6 +355,10 @@ def login():
 def logout():
    logout_user()
    return redirect(url_for('home'))
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("404.html")
 
 @login_manager.user_loader
 def load_user(user_id):

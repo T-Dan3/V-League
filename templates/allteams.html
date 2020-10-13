@@ -17,12 +17,22 @@
         <div class="column">
             <form class="addteam" action="{{url_for('allteams')}}" method="POST">
                 {{form.csrf_token}}
-                {{form.name(placeholder='Name')}}
-                {{form.founded_date(placeholder='Founded Date')}}
-                {{form.stadium(placeholder='Stadium')}}
-                {{form.chairman(placeholder='Chairman')}}
-                {{form.division(placeholder='Division (M/W)')}}
-                <input id="loginsubmit" type="submit" value="Add">
+                <fieldset class="team_form">
+                    {{form.name(placeholder='Name')}}
+                </fieldset>
+                <fieldset class="team_form">
+                    {{form.founded_date(placeholder='Founded Date')}}
+                </fieldset>
+                <fieldset class="team_form">
+                    {{form.stadium(placeholder='Stadium')}}
+                </fieldset>
+                <fieldset class="team_form">
+                    {{form.chairman(placeholder='Chairman')}}
+                </fieldset>
+                <fieldset class="team_form">
+                    {{form.division}}
+                </fieldset>
+                <input id="form_submit" type="submit" value="Add">
             </form>
         </div>
         {% endif %}
