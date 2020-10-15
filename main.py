@@ -12,18 +12,24 @@ from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional
 from datetime import date
 
+# Lists to store teams that are competing today 
 first_team_list = []
 second_team_list = []
 
+# Lists to store teams that are competing tomorrow 
 tmr_first_teams_list = []
 tmr_second_teams_list = []
 
+# Lists to store all teams that are competing
 all_first_teams_list = []
 all_second_teams_list = []
 
+# List to store all the users that liked a player
 upvoters = []
+# List to store the most liked players 
 top_players_list = []
 
+# List to store all the players a user has liked 
 user_upvotes = []
 
 app = Flask(__name__)
@@ -40,6 +46,7 @@ likes = db.Table('likes',
         db.Column('player_id', db.Integer, db.ForeignKey('player.id'))
 )
 
+# Player db
 class Player(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String, nullable = False, unique = False)
@@ -52,10 +59,11 @@ class Player(db.Model):
     image = db.Column(db.String, nullable = True, unique = True)
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
 
+# Team db
 class Team(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String, nullable = False, unique = True)
-    founded_date = db.Column(db.String, nullable = True, unique = False)
+    founded_date = db.Column(db.Integer, nullable = True, unique = False)
     stadium = db.Column(db.String, nullable = True, unique = False)
     chairman = db.Column(db.String, nullable = True, unique = True)
     image = db.Column(db.String, nullable = True, unique = True)
@@ -65,12 +73,14 @@ class Team(db.Model):
     def __repr__(self):
         return '[Team {}]'.format(self.name)
 
+# Scheduled games db
 class TeamGames(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     first_team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable = False)
     second_team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable = False)
-    date = db.Column(db.String, nullable = False, unique=False)
+    date = db.Column(db.Date, nullable = False)
 
+# User db
 class User(UserMixin, db.Model):
    id = db.Column(db.Integer, primary_key = True)
    name = db.Column(db.String, nullable = False, unique = False)
@@ -78,7 +88,7 @@ class User(UserMixin, db.Model):
    password = db.Column(db.String(100), nullable = False, unique = False)
    created_on = db.Column(db.Date, index = False, unique = False, nullable = True, default=date.today())
    upvotes = db.relationship('Player', secondary=likes, backref=db.backref('upvoters', lazy='dynamic'))
-
+ 
    def set_password(self, password):
       self.password = generate_password_hash(password, method="sha256")
 
@@ -88,6 +98,7 @@ class User(UserMixin, db.Model):
    def __repr__(self):
       return '<User {}>'.format(self.username)
 
+# Sign up flask form
 class SignupForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[Length(min=6), DataRequired()])
@@ -95,11 +106,13 @@ class SignupForm(FlaskForm):
     confirm = PasswordField('Confirm Your Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match.')])
     submit = SubmitField('Register')
 
+# Login flask form
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email(message='Enter a valid email.')])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Log In')
 
+# Add team flask form
 class AddTeamForm(FlaskForm):
     name = StringField('Team Name', validators=[DataRequired()])
     founded_date = IntegerField('Founded Date', validators=[DataRequired()])
@@ -108,14 +121,17 @@ class AddTeamForm(FlaskForm):
     division = SelectField(choices=[('M', 'Male'),('W','Women')])
     submit = SubmitField('Add')
 
+# Function to query for all the teams to be used for select field 
 def choice_query():
     return Team.query.all()
 
+# Add scheduled game flask form
 class AddGameForm(FlaskForm):
     first_team = QuerySelectField(query_factory=choice_query,allow_blank=True, get_label='name')
     second_team = QuerySelectField(query_factory=choice_query,allow_blank=True, get_label='name')
     scheduled_date = DateField('date', format='%Y-%m-%d')
 
+# Add player flask form
 class AddPlayerForm(FlaskForm):
     name = StringField('Player Name', validators=[DataRequired()])
     height = IntegerField('Height', validators=[DataRequired()])
@@ -128,32 +144,32 @@ class AddPlayerForm(FlaskForm):
 
 @app.route('/')
 def home():
-    #Clears the list to prevent duplicates
+    # Clears the list to prevent duplicates
     first_team_list.clear()
     second_team_list.clear()
     tmr_first_teams_list.clear()
     tmr_second_teams_list.clear()
     upvoters.clear()
     top_players_list.clear()
-    #Query for today and tomorrow's games using the dates  
+    # Query for today and tomorrow's games using the dates  
     today_date = TeamGames.query.filter_by(date=date.today()).all()
     tmr_date = TeamGames.query.filter_by(date=datetime.date.today() + datetime.timedelta(days=1)).all()
     #Query for all players in database
     all_players = Player.query.all()
-    #Loop to add all the players upvoters count into a list
+    # Loop to add all the players upvoters count into a list
     for i in range(len(all_players)):
         upvoters.append(all_players[i].upvoters.count())
-    #Loop to add all of tomorrow's first team's id and second team's id into a list
+    # Loop to add all of tomorrow's first team's id and second team's id into a list
     for i in range(len(tmr_date)):
         tmr_first_teams_list.append(tmr_date[i].first_team_id)
         tmr_second_teams_list.append(tmr_date[i].second_team_id)
-    #Loop to add all of today's first team's id and second team's id into a list
+    # Loop to add all of today's first team's id and second team's id into a list
     for i in range(len(today_date)):
         first_team_list.append(today_date[i].first_team_id)
         second_team_list.append(today_date[i].second_team_id)
-    #Sort the upvoters count list by descending order
+    # Sort the upvoters count list by descending order
     upvoters.sort(reverse=True)
-    #Add the top upvoted players according to their upvoters count into a list
+    # Add the top upvoted players according to their upvoters count into a list
     for i in range(len(all_players)):
         if(all_players[i].upvoters.count() == upvoters[0] and upvoters[0] != 0):
             top_players_list.append(all_players[i].id)
@@ -161,9 +177,9 @@ def home():
             top_players_list.append(all_players[i].id)
         if(all_players[i].upvoters.count() == upvoters[2] and upvoters[2] != 0):
             top_players_list.append(all_players[i].id)
-    #Query for the top upvoted players no duplicates
+    # Query for the top upvoted players no duplicates
     top_players = Player.query.filter(Player.id.in_(top_players_list)).all()
-    #Query for today and tomorrow's first and second teams with duplicates
+    # Query for today and tomorrow's first and second teams with duplicates
     tmr_first_teams = [Team.query.filter_by(id=id).one() for id in tmr_first_teams_list]
     tmr_second_teams = [Team.query.filter_by(id=id).one() for id in tmr_second_teams_list]
     today_first_teams = [Team.query.filter_by(id=id).one() for id in first_team_list]
@@ -172,12 +188,16 @@ def home():
 
 @app.route('/account', methods=['GET','POST'])
 def account():
+    # Clears the list to prevent duplicates 
     user_upvotes.clear()
     this_user = User.query.filter_by(id=current_user.id).first()
+    # Stores the players the user has liked 
     for i in range(len(current_user.upvotes)):
         user_upvotes.append(current_user.upvotes[i].id)
+    # Query for all the players the user has liked
     upvotes = Player.query.filter(Player.id.in_(user_upvotes)).all()
     if request.method == 'POST':
+        # Deletes the user
         db.session.delete(this_user)
         db.session.commit()
         return redirect(url_for('home'))
@@ -188,26 +208,31 @@ def schedule():
     form = AddGameForm()
     if request.method == 'POST':
         if form.validate_on_submit():
+            # Data collected from the add game form
             id_one = request.form.get('first_team')
             id_two = request.form.get('second_team')
             sch_date = request.form.get('scheduled_date')
+            # Query for the competing teams
             team_one = Team.query.filter_by(id=id_one).first()
             team_two = Team.query.filter_by(id=id_two).first()
             if(id_one != '__None' and id_two != '__None' and sch_date != '' and id_one != id_two):
-                day = sch_date.split('-')[2]
-                month = calendar.month_name[int(sch_date.split('-')[1])]
-                year = sch_date.split('-')[0]
-                complete_date = day + " " + month + " " + year
-                game = TeamGames(first_team_id=int(id_one), second_team_id=int(id_two), date=complete_date)
+                # Converts the string to python datetime 
+                date = datetime.datetime.strptime(sch_date, '%Y-%m-%d')
+                game = TeamGames(first_team_id=int(id_one), second_team_id=int(id_two), date=date)
+                # Adds the scheduled game
                 db.session.add(game)
                 db.session.commit()
                 return redirect (url_for('schedule'))
+    # Clears the list to prevent duplicates
     all_first_teams_list.clear()
     all_second_teams_list.clear()
+    # Sorts the scheduled games by ascending order based on the dates  
     all_date = TeamGames.query.order_by(TeamGames.date).all()
+    # Stores all the competing teams 
     for i in range(len(all_date)):
         all_first_teams_list.append(all_date[i].first_team_id)
         all_second_teams_list.append(all_date[i].second_team_id)
+    # Query for all the competing teams
     all_first_teams = [Team.query.filter_by(id=id).one() for id in all_first_teams_list]
     all_second_teams = [Team.query.filter_by(id=id).one() for id in all_second_teams_list]
     return render_template('schedule.html', all_second_teams=all_second_teams, all_first_teams=all_first_teams, all_date=all_date, form=form)
@@ -217,6 +242,7 @@ def allplayers():
     form = AddPlayerForm()
     if request.method == 'POST':
         if form.validate_on_submit():
+            # Data collected from the add player form
             name = request.form.get('name')
             height = request.form.get('height')
             position = request.form.get('position')
@@ -225,43 +251,52 @@ def allplayers():
             birth_date = request.form.get('birth_date')
             birth_place = request.form.get('birth_place')
             team= request.form.get('team')
+            # Converts the collected birth date to a string - with format Day Month Year in words, e.g. 10 May 2012
             day = birth_date.split('-')[2]
             month = calendar.month_name[int(birth_date.split('-')[1])]
             year = birth_date.split('-')[0]
             complete_date = day + " " + month + " " + year
+            # Checks if the player's name already exist in the player db
             existing_name = Player.query.filter_by(name=name).first() 
             if(birth_place != existing_name.birth_place or birth_date != existing_name.birth_date or number != existing_name.number or team != existing_name.team_id):
                 to_add = Player(name=name, height=height, position=position, age=age, number=number, birth_date=complete_date, birth_place=birth_place, team_id=int(team))
                 db.session.add(to_add)
                 db.session.commit()
-                return redirect (url_for('allplayers'))    
+                return redirect (url_for('allplayers'))   
+    # List to store players based on the first letter of their name 
     result = []
     for i in range(26):
+        # Variable to store the letters 
         var = chr(65+i)
         result.append(Player.query.filter(Player.name.startswith(var)).all())
     return render_template('allplayers.html', q=result, form=form)
 
 @app.route('/player/<player_name>', methods=['GET','POST'])
 def playerprofile(player_name):
+    # Check if the player exists in the player db
     check_player = Player.query.filter_by(name=player_name).first()
+    # If player does not exists redirect to 404 page 
     if check_player is None:
         return redirect('/404')
     if current_user.is_authenticated:
         user = User.query.filter_by(id=current_user.id).first()
         player = Player.query.filter_by(name=player_name).first()
-        # checks if the user has liked the player 
+        # Checks if the user has liked the player 
         liked = player.upvoters.filter_by(id=current_user.id).first()
         if request.method == 'POST':
             if request.form.get("delete"):
+                # Deletes the player - only for admins
                 to_delete = Player.query.filter_by(name=player_name).first()
                 db.session.delete(to_delete)
                 db.session.commit()
                 return redirect (url_for('allplayers'))
             else:
+                # Likes the player if the user hasn't already 
                 if liked is None:
                     player.upvoters.append(user)
                     db.session.commit()
                     return redirect(url_for('playerprofile', player_name=player_name))
+                # Unlike the player if the user has liked them before 
                 if liked:
                     player.upvoters.remove(user)
                     db.session.commit()
@@ -272,12 +307,16 @@ def playerprofile(player_name):
 
 @app.route('/team/<team_name>', methods=['GET','POST'])
 def teampage(team_name):
+    # Check if the team exists in the team db
     check_team = Team.query.filter_by(name=team_name).first()
+    # If the team does not exist redirect the user to 404 page 
     if check_team is None:
         return redirect('/404')
     team=Team.query.filter_by(name=team_name).all()
+    # Query for all the players in the team 
     team_players=Player.query.filter_by(team_id=Team.query.filter_by(name=team_name).first().id).all()
     if request.method == 'POST':
+        # Deletes the team - only for admins
         delteam = Team.query.filter_by(name=team_name).first()
         db.session.delete(delteam)
         db.session.commit()
@@ -289,20 +328,22 @@ def allteams():
     addteam_form = AddTeamForm(request.form)
     if request.method == 'POST':
         if addteam_form.validate_on_submit():
+            # Data collected from the add team form 
             name = request.form.get('name')
             founded_date = request.form.get('founded_date')
             stadium = request.form.get('stadium')
             chairman = request.form.get('chairman')
             division = request.form.get('division').upper()
             length_test = len(str(founded_date))
-            # checks if user already has an account under the same email
-            existing_user = Team.query.filter_by(name=name).first()
-            if existing_user is None:
+            # Checks if the team already exist in the team db
+            existing_team = Team.query.filter_by(name=name).first()
+            if existing_team is None:
                 if length_test == 4 and int(founded_date) > 0:
                     team = Team(name=name, founded_date=founded_date, stadium=stadium, chairman=chairman, division=division)
                     db.session.add(team)
                     db.session.commit()
                     return redirect(url_for('allteams'))
+    # Query for all the women and men teams 
     women_teams = Team.query.filter(Team.division=='W').all()
     men_teams = Team.query.filter(Team.division=='M').all()
     return render_template('allteams.html', women_teams=women_teams, men_teams=men_teams, form=addteam_form)
@@ -311,13 +352,12 @@ def allteams():
 def signup():
     signup_form = SignupForm(request.form)
     if request.method == 'POST':
-        print("sign up posted")
         if signup_form.validate_on_submit():
-            print("sign up validated")
+            # Data collected from the sign up form
             name = request.form.get('username')
             email = request.form.get('email')
             password = request.form.get('password')
-            # checks if user already has an account under the same email
+            # Checks if user already has an account under the same email
             existing_user = User.query.filter_by(email=email).first()
             if existing_user is None:
                 if(('@' in email) & ((".com" in email) | (".nz" in email))):
@@ -335,19 +375,16 @@ def login():
         return redirect(url_for('home'))
     login_form = LoginForm(request.form)
     if request.method == "POST":
-        print('login posted')
         if login_form.validate():
-            print('login validated')
+            # Data collected from the login form 
             email = request.form.get('email')
             password = request.form.get('password')
             user = User.query.filter_by(email=email).first()
+            # Checks if user has entered the right email and password
             if user and user.check_password(password=password):
                 login_user(user)
-                print('logged in')
                 next_page = request.args.get('next')
                 return redirect(next_page or url_for('home'))
-        if not login_form.validate():
-            print('login not validated')
     return render_template('login.html', form=login_form)
 
 @app.route('/logout')
