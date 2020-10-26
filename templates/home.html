@@ -6,7 +6,7 @@
     <div class="top_players">
         <h2 class="home_header">Most Upvoted Players</h2>
         {% for top_players in top_players %}
-            <p><a href="/player/{{top_players.name}}">{{top_players.name}}</a></p>
+            <p class="player_preview"><a href="/player/{{top_players.name}}-{{top_players.id}}">{{top_players.name}}</a></p>
         {% endfor %}
     </div>
 

@@ -12,26 +12,6 @@ from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional
 from datetime import date
 
-# Lists to store teams that are competing today 
-first_team_list = []
-second_team_list = []
-
-# Lists to store teams that are competing tomorrow 
-tmr_first_teams_list = []
-tmr_second_teams_list = []
-
-# Lists to store all teams that are competing
-all_first_teams_list = []
-all_second_teams_list = []
-
-# List to store all the users that liked a player
-upvoters = []
-# List to store the most liked players 
-top_players_list = []
-
-# List to store all the players a user has liked 
-user_upvotes = []
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///static/vleague.db'
 app.config['SECRET_KEY'] = "random string"
@@ -144,13 +124,20 @@ class AddPlayerForm(FlaskForm):
 
 @app.route('/')
 def home():
-    # Clears the list to prevent duplicates
-    first_team_list.clear()
-    second_team_list.clear()
-    tmr_first_teams_list.clear()
-    tmr_second_teams_list.clear()
-    upvoters.clear()
-    top_players_list.clear()
+    # Lists to store teams that are competing today 
+    first_team_list = []
+    second_team_list = []
+
+    # Lists to store teams that are competing tomorrow 
+    tmr_first_teams_list = []
+    tmr_second_teams_list = []
+
+    # List to store all the users that liked a player
+    upvoters = []
+
+    # List to store the most liked players 
+    top_players_list = []
+
     # Query for today and tomorrow's games using the dates  
     today_date = TeamGames.query.filter_by(date=date.today()).all()
     tmr_date = TeamGames.query.filter_by(date=datetime.date.today() + datetime.timedelta(days=1)).all()
@@ -188,8 +175,9 @@ def home():
 
 @app.route('/account', methods=['GET','POST'])
 def account():
-    # Clears the list to prevent duplicates 
-    user_upvotes.clear()
+    # List to store all the players a user has liked 
+    user_upvotes = []
+
     this_user = User.query.filter_by(id=current_user.id).first()
     # Stores the players the user has liked 
     for i in range(len(current_user.upvotes)):
@@ -205,6 +193,10 @@ def account():
 
 @app.route('/schedule', methods=['GET','POST'])
 def schedule():
+    # Lists to store all teams that are competing
+    all_first_teams_list = []
+    all_second_teams_list = []
+
     form = AddGameForm()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -223,19 +215,20 @@ def schedule():
                 db.session.add(game)
                 db.session.commit()
                 return redirect (url_for('schedule'))
-    # Clears the list to prevent duplicates
-    all_first_teams_list.clear()
-    all_second_teams_list.clear()
     # Sorts the scheduled games by ascending order based on the dates  
     all_date = TeamGames.query.order_by(TeamGames.date).all()
+    dates_to_store = []
     # Stores all the competing teams 
     for i in range(len(all_date)):
-        all_first_teams_list.append(all_date[i].first_team_id)
-        all_second_teams_list.append(all_date[i].second_team_id)
+        date_to = datetime.date.today()
+        if(all_date[i].date > date_to):
+            dates_to_store.append(all_date[i].date)
+            all_first_teams_list.append(all_date[i].first_team_id)
+            all_second_teams_list.append(all_date[i].second_team_id)
     # Query for all the competing teams
     all_first_teams = [Team.query.filter_by(id=id).one() for id in all_first_teams_list]
     all_second_teams = [Team.query.filter_by(id=id).one() for id in all_second_teams_list]
-    return render_template('schedule.html', all_second_teams=all_second_teams, all_first_teams=all_first_teams, all_date=all_date, form=form)
+    return render_template('schedule.html', all_second_teams=all_second_teams,dates_to_store=dates_to_store, all_first_teams=all_first_teams, all_date=all_date, form=form)
 
 @app.route('/all-players', methods=['GET', 'POST'])
 def allplayers():
@@ -251,18 +244,25 @@ def allplayers():
             birth_date = request.form.get('birth_date')
             birth_place = request.form.get('birth_place')
             team= request.form.get('team')
+            print(birth_date)
             # Converts the collected birth date to a string - with format Day Month Year in words, e.g. 10 May 2012
             day = birth_date.split('-')[2]
             month = calendar.month_name[int(birth_date.split('-')[1])]
             year = birth_date.split('-')[0]
             complete_date = day + " " + month + " " + year
             # Checks if the player's name already exist in the player db
-            existing_name = Player.query.filter_by(name=name).first() 
-            if(birth_place != existing_name.birth_place or birth_date != existing_name.birth_date or number != existing_name.number or team != existing_name.team_id):
+            existing_name = Player.query.filter_by(name=name).first()
+            if(existing_name): 
+                if(birth_place != existing_name.birth_place and birth_date != existing_name.birth_date and number != existing_name.number and team != existing_name.team_id):
+                    to_add = Player(name=name, height=height, position=position, age=age, number=number, birth_date=complete_date, birth_place=birth_place, team_id=int(team))
+                    db.session.add(to_add)
+                    db.session.commit()
+                    return redirect (url_for('allplayers'))  
+            else:
                 to_add = Player(name=name, height=height, position=position, age=age, number=number, birth_date=complete_date, birth_place=birth_place, team_id=int(team))
                 db.session.add(to_add)
                 db.session.commit()
-                return redirect (url_for('allplayers'))   
+                return redirect (url_for('allplayers'))  
     # List to store players based on the first letter of their name 
     result = []
     for i in range(26):
@@ -271,39 +271,45 @@ def allplayers():
         result.append(Player.query.filter(Player.name.startswith(var)).all())
     return render_template('allplayers.html', q=result, form=form)
 
-@app.route('/player/<player_name>', methods=['GET','POST'])
-def playerprofile(player_name):
+@app.route('/player/<player_name>-<player_id>', methods=['GET','POST'])
+def playerprofile(player_name, player_id):
     # Check if the player exists in the player db
-    check_player = Player.query.filter_by(name=player_name).first()
+    check_id = Player.query.filter_by(id=player_id).first()
+    check_player = Player.query.filter_by(name=player_name).all()
+    checked=False
     # If player does not exists redirect to 404 page 
-    if check_player is None:
-        return redirect('/404')
-    if current_user.is_authenticated:
-        user = User.query.filter_by(id=current_user.id).first()
-        player = Player.query.filter_by(name=player_name).first()
-        # Checks if the user has liked the player 
-        liked = player.upvoters.filter_by(id=current_user.id).first()
-        if request.method == 'POST':
-            if request.form.get("delete"):
-                # Deletes the player - only for admins
-                to_delete = Player.query.filter_by(name=player_name).first()
-                db.session.delete(to_delete)
-                db.session.commit()
-                return redirect (url_for('allplayers'))
+    for i in check_player:
+        if i == check_id:
+            checked=True
+            if current_user.is_authenticated:
+                user = User.query.filter_by(id=current_user.id).first()
+                player = Player.query.filter_by(id=player_id).first()
+                # Checks if the user has liked the player 
+                liked = player.upvoters.filter_by(id=current_user.id).first()
+                if request.method == 'POST':
+                    if request.form.get("delete"):
+                        # Deletes the player - only for admins
+                        to_delete = Player.query.filter_by(id=player_id).first()
+                        db.session.delete(to_delete)
+                        db.session.commit()
+                        return redirect (url_for('allplayers'))
+                    else:
+                        # Likes the player if the user hasn't already 
+                        if liked is None:
+                            player.upvoters.append(user)
+                            db.session.commit()
+                            return redirect(url_for('playerprofile', player_name=player_name, player_id=player_id))
+                        # Unlike the player if the user has liked them before 
+                        if liked:
+                            player.upvoters.remove(user)
+                            db.session.commit()
+                            return redirect(url_for('playerprofile', player_name=player_name, player_id=player_id))
             else:
-                # Likes the player if the user hasn't already 
-                if liked is None:
-                    player.upvoters.append(user)
-                    db.session.commit()
-                    return redirect(url_for('playerprofile', player_name=player_name))
-                # Unlike the player if the user has liked them before 
-                if liked:
-                    player.upvoters.remove(user)
-                    db.session.commit()
-                    return redirect(url_for('playerprofile', player_name=player_name))
-    else:
-        return render_template('player_profile.html', player_info=Player.query.filter_by(name=player_name).all())
-    return render_template('player_profile.html', liked=liked, player_info=Player.query.filter_by(name=player_name).all())
+                return render_template('player_profile.html', player_info=Player.query.filter_by(id=player_id).all())
+            break
+    if not checked:
+        return redirect('/404')
+    return render_template('player_profile.html', liked=liked, player_info=Player.query.filter_by(id=player_id).all())
 
 @app.route('/team/<team_name>', methods=['GET','POST'])
 def teampage(team_name):

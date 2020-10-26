@@ -22,6 +22,8 @@ li {
 
 h3, .home_header {
   border-bottom: 1px solid black;
+  font-family: 'PT Serif', serif;
+  font-weight: 550;
 }
 
 .page-wrapper {
@@ -102,17 +104,24 @@ img.player-profile {
   margin-top: 1rem;
 }
 
+.playerprofile_info{
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
 h1.playername{
-  font-size: 2.5rem;
+  font-size: 3rem;
   padding-left: 1.2rem;
   padding-top: 1.5rem;
   float: left;
+  font-family: 'Zilla Slab', serif;
+  font-weight: 500;
 }
 
 .like_count{
   float: right;
   padding-right: 2rem;
   padding-top: 1.25rem;
+  font-family: 'PT Serif', serif;
 }
 
 .playerinfo{
@@ -149,12 +158,16 @@ img.player_team_img {
 h1.box_title {
   border-bottom: 1px solid black;
   text-align: center;
+  font-family: 'PT Serif', serif;
+  font-weight: lighter;
 }
 
 h1.team_name {
   float: left;
   padding-top: 5%;
   padding-left: 1rem;
+  font-family: 'PT Serif', serif;
+  font-weight: normal;
 }
 
 input#submit{
@@ -176,6 +189,12 @@ ul.playernameindex{
   overflow: hidden;
 }
 
+.allplayers_name{
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 1rem;
+  letter-spacing: -0.05rem;
+}
+
 li a.indexlink{
   display: block;
   padding: 1rem;
@@ -183,17 +202,17 @@ li a.indexlink{
 }
 
 .allplayersnav{
-border: 1px solid grey;
-box-shadow: 3px 3px lightgrey;
-display: flex;
-margin-top: 1rem;
+  border: 1px solid grey;
+  box-shadow: 3px 3px lightgrey;
+  display: flex;
+  margin-top: 1rem;
 }
 
 .alphabetbox {
-float: left;
-width: 10%;
-text-align: center;
-background-color: lightblue;
+  float: left;
+  width: 10%;
+  text-align: center;
+  background-color: #C3E6FC;
 }
 
 .playerlistbox {
@@ -225,6 +244,8 @@ background-color: lightblue;
 
 .add_form_header{
   text-align: center;
+  font-family: 'PT Serif', serif;
+  font-weight: 550;
 }
 
 .add_player_form{
@@ -246,6 +267,7 @@ background-color: lightblue;
   margin-left: 0;
   border: 1px solid grey;
   box-shadow: 3px 3px lightgrey;
+  background-color: #EAEAEA;
 }
 
 .row {
@@ -266,6 +288,11 @@ img.teamlogo {
 h2.division {
   float: left;
   clear: left;
+  font-family: 'PT Serif', serif;
+}
+
+p.team_name{
+  font-family: 'Noto Sans JP', sans-serif;
 }
 
 .team_form{
@@ -356,8 +383,9 @@ img.team, img.player_team_img{
 }
 
 h1.teamname {
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
   font-size: 2.5rem;
+  font-weight: lighter;
 }
 
 .delete{
@@ -667,7 +695,7 @@ td {
 }
 
 th {
-  background-color: #c2d6eb;
+  background-color: #C3E6FC;
   font-family: 'Titillium', sans-serif;
   font-weight: 500;
   border-top: none;
@@ -703,6 +731,7 @@ th.btmleft{
   padding: 0.4rem;
   border-radius: 1rem;
   box-shadow: 2px 2px lightgrey;
+  background-color: #C3E6FC;
 }
 
 .VS{
@@ -726,7 +755,11 @@ th.btmleft{
 .team_preview{
   float: left;
   text-align: center;
-  font-family: Montserrat;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+.player_preview{
+  font-family: 'Noto Sans JP', sans-serif;
 }
 
 .mini_holder{
@@ -794,6 +827,16 @@ label{
   border: 1px solid black;
   clear: right;
 }
+
+.schedule_header{
+  font-family: 'PT Serif', serif;
+  font-weight: 600;
+}
+
+.schedule_teams{
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
 /* End of schedule page css */
 
 /* Start of 404 page css */
